@@ -11,6 +11,10 @@ import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.android.synthetic.main.activity_main.*
+import android.os.AsyncTask
+import java.net.URL
+import javax.net.ssl.HttpsURLConnection
+
 
 class MainActivity : AppCompatActivity() {
     var textTitle = "Do github"
@@ -18,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     var CHANNEL_ID = "MYch"
     var CHANNEL_NAME = "ch1"
     var notificationId:Int = 1002
+    var githubEndpoint: URL = URL("https://api.github.com/")
+    var myConnection: HttpsURLConnection = githubEndpoint.openConnection() as HttpsURLConnection
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +37,22 @@ class MainActivity : AppCompatActivity() {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
             createNotificationChannel(builder,notificationId)
+        }
+
+        AsyncTask.execute {
+            // All your networking logic
+            // should be here
+            myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+            myConnection.setRequestProperty("Accept",
+                "application/vnd.github.v3+json");
+            myConnection.setRequestProperty("Contact-Me",
+                "hathibelagal@example.com");
+            if (myConnection.getResponseCode() == 200) {
+                // Success
+                // Further processing here
+            } else {
+                // Error handling code goes here
+            }
         }
 
     }
