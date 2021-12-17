@@ -12,6 +12,11 @@
         android:layout_height="wrap_content"
         android:text="알림보내기"
         android:id="@+id/button"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="api_Test"
+        android:id="@+id/api_btn"/>
 
 <!--TODO: 1.알림보내기 -->
 <!--TODO: 2.GitApi쓰는법배우기-->
