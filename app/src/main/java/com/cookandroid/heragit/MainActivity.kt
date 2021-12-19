@@ -15,6 +15,7 @@ import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 import android.util.JsonReader
+import android.util.Log
 import android.widget.Toast
 
 
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val TAG:String = "MainActivity : "
+
 
 
         button.setOnClickListener {
@@ -43,59 +46,61 @@ class MainActivity : AppCompatActivity() {
         }
 
         api_btn.setOnClickListener {
-            var data = getApi()
-        }
 
+            try{
+                var githubEndpoint: URL = URL("https://api.github.com/fnql")
+                var myConnection: HttpsURLConnection = githubEndpoint.openConnection() as HttpsURLConnection
 
+                // All your networking logic
+                // should be here
+                myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+                myConnection.setRequestProperty(
+                    "Accept",
+                    "application/vnd.github.v3+json"
+                );
+                myConnection.setRequestProperty(
+                    "Contact-Me",
+                    "dbwhddnr00@naver.com"
+                );
+                Log.d(TAG,myConnection.toString())
+                if (myConnection.getResponseCode() == 200) {
+                    val responseBody: InputStream = myConnection.inputStream
+                    var responseBodyReader: InputStreamReader = InputStreamReader(responseBody, "UTF-8")
+                    val jsonReader = JsonReader(responseBodyReader)
+                    jsonReader.beginObject() // Start processing the JSON object
 
-    }
-
-    private fun getApi(): Any {
-        var githubEndpoint: URL = URL("https://api.github.com/")
-        var myConnection: HttpsURLConnection = githubEndpoint.openConnection() as HttpsURLConnection
-
-        return AsyncTask.execute {
-            // All your networking logic
-            // should be here
-            myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
-            myConnection.setRequestProperty(
-                "Accept",
-                "application/vnd.github.v3+json"
-            );
-            myConnection.setRequestProperty(
-                "Contact-Me",
-                "dbwhddnr00@naver.com"
-            );
-            if (myConnection.getResponseCode() == 200) {
-                val responseBody: InputStream = myConnection.inputStream
-                var responseBodyReader: InputStreamReader = InputStreamReader(responseBody, "UTF-8")
-                val jsonReader = JsonReader(responseBodyReader)
-                jsonReader.beginObject() // Start processing the JSON object
-
-                while (jsonReader.hasNext()) { // Loop through all keys
-                    val key = jsonReader.nextName() // Fetch the next key
-                    if (key == "organization_url") { // Check if desired key
-                        // Fetch the value as a String
-                        val value = jsonReader.nextString()
-                        val handler = Handler(Looper.getMainLooper())
-                        handler.postDelayed(Runnable {
-                            value
-                        }, 0)
-                        Toast.makeText(this,value,Toast.LENGTH_LONG).show()
-                        // Do something with the value
-                        // ...
-                        break // Break out of the loop
-                    } else {
-                        jsonReader.skipValue() // Skip values of other keys
+                    while (jsonReader.hasNext()) { // Loop through all keys
+                        val key = jsonReader.nextName() // Fetch the next key
+                        if (key == "organization_url") { // Check if desired key
+                            // Fetch the value as a String
+                            val value = jsonReader.nextString()
+                            val handler = Handler(Looper.getMainLooper())
+                            handler.postDelayed(Runnable {
+                                value
+                            }, 0)
+                            Toast.makeText(this, value, Toast.LENGTH_LONG).show()
+                            // Do something with the value
+                            // ...
+                            break // Break out of the loop
+                        } else {
+                            jsonReader.skipValue() // Skip values of other keys
+                        }
                     }
+                    jsonReader.close();
+                    myConnection.disconnect();
+                } else {
+                    // Error handling code goes here
                 }
-                jsonReader.close();
-                myConnection.disconnect();
-            } else {
-                // Error handling code goes here
+            } catch (e: Exception) {
+                print(e)
             }
+
         }
+
+
+
     }
+
 
     private fun createNotificationChannel(builder:NotificationCompat.Builder,notificationId:Int) {
         // Create the NotificationChannel, but only on API 26+ because
