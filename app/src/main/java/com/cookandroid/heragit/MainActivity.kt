@@ -17,6 +17,10 @@ import javax.net.ssl.HttpsURLConnection
 import android.util.JsonReader
 import android.util.Log
 import android.widget.Toast
+import java.io.BufferedReader
+import java.lang.Exception
+import java.lang.StringBuilder
+import java.net.HttpURLConnection
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val TAG:String = "MainActivity : "
+        val TAG:String = "MainActivity### : "
 
 
 
@@ -46,60 +50,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         api_btn.setOnClickListener {
-
-            try{
-                var githubEndpoint: URL = URL("https://api.github.com/fnql")
-                var myConnection: HttpsURLConnection = githubEndpoint.openConnection() as HttpsURLConnection
-
-                // All your networking logic
-                // should be here
-                myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
-                myConnection.setRequestProperty(
-                    "Accept",
-                    "application/vnd.github.v3+json"
-                );
-                myConnection.setRequestProperty(
-                    "Contact-Me",
-                    "dbwhddnr00@naver.com"
-                );
-                Log.d(TAG,myConnection.toString())
-                if (myConnection.getResponseCode() == 200) {
-                    val responseBody: InputStream = myConnection.inputStream
-                    var responseBodyReader: InputStreamReader = InputStreamReader(responseBody, "UTF-8")
-                    val jsonReader = JsonReader(responseBodyReader)
-                    jsonReader.beginObject() // Start processing the JSON object
-
-                    while (jsonReader.hasNext()) { // Loop through all keys
-                        val key = jsonReader.nextName() // Fetch the next key
-                        if (key == "organization_url") { // Check if desired key
-                            // Fetch the value as a String
-                            val value = jsonReader.nextString()
-                            val handler = Handler(Looper.getMainLooper())
-                            handler.postDelayed(Runnable {
-                                value
-                            }, 0)
-                            Toast.makeText(this, value, Toast.LENGTH_LONG).show()
-                            // Do something with the value
-                            // ...
-                            break // Break out of the loop
-                        } else {
-                            jsonReader.skipValue() // Skip values of other keys
-                        }
-                    }
-                    jsonReader.close();
-                    myConnection.disconnect();
-                } else {
-                    // Error handling code goes here
+            var result: String? = null
+            try {
+                // Open the connection
+                val url = URL("https://api.example.com/v1/users")
+                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+                conn.setRequestMethod("GET")
+                val is: InputStream = conn.getInputStream()
+//https://calvinjmkim.tistory.com/16
+                // Get the stream
+                val builder = StringBuilder()
+                val reader = BufferedReader(InputStreamReader(`is`, "UTF-8"))
+                var line: String?
+                while (reader.readLine().also { line = it } != null) {
+                    builder.append(line)
                 }
+
+                // Set the result
+                result = builder.toString()
+                Log.d(TAG,result)
             } catch (e: Exception) {
-                print(e)
+                // Error calling the rest api
+                Log.e("REST_API", "GET method failed: " + e.message)
+                e.printStackTrace()
             }
-
         }
-
-
-
     }
+
 
 
     private fun createNotificationChannel(builder:NotificationCompat.Builder,notificationId:Int) {
