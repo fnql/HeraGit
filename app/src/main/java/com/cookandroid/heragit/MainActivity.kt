@@ -3,24 +3,23 @@ package com.cookandroid.heragit
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
-import android.util.JsonReader
 import android.util.Log
-import android.widget.Toast
 import java.io.BufferedReader
 import java.lang.Exception
 import java.lang.StringBuilder
 import java.net.HttpURLConnection
+import android.os.AsyncTask
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,33 +49,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         api_btn.setOnClickListener {
-            var result: String? = null
-            try {
-                // Open the connection
-                val url = URL("https://api.example.com/v1/users")
-                val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
-                conn.setRequestMethod("GET")
-                val is: InputStream = conn.getInputStream()
-//https://calvinjmkim.tistory.com/16
-                // Get the stream
-                val builder = StringBuilder()
-                val reader = BufferedReader(InputStreamReader(`is`, "UTF-8"))
-                var line: String?
-                while (reader.readLine().also { line = it } != null) {
-                    builder.append(line)
+            val asyncTask = object : AsyncTask<Void, Int, String>() {
+                override fun doInBackground(vararg p0: Void?): String? {
+                    var result: String? = null
+                    try {
+                        // Open the connection
+                        val url = URL("https://api.github.com/repos/fnql/dongchelin/issues")
+                        val conn = url.openConnection() as HttpURLConnection
+                        conn.requestMethod = "GET"
+                        val ism = conn.inputStream
+                        // Get the stream
+                        val builder = StringBuilder()
+                        val reader = BufferedReader(InputStreamReader(ism, "UTF-8"))
+                        var line: String?
+                        while (reader.readLine().also { line = it } != null) {
+                            builder.append(line)
+                        }
+
+                        // Set the result
+                        result = builder.toString()
+                    } catch (e: Exception) {
+                        // Error calling the rest api
+                        Log.e("REST_API", "GET method failed: " + e.message)
+                        e.printStackTrace()
+                    }
+                    return result
                 }
-
-                // Set the result
-                result = builder.toString()
-                Log.d(TAG,result)
-            } catch (e: Exception) {
-                // Error calling the rest api
-                Log.e("REST_API", "GET method failed: " + e.message)
-                e.printStackTrace()
             }
+            Log.d(TAG, asyncTask.toString())
         }
-    }
 
+    }
+//https://calvinjmkim.tistory.com/16
 
 
     private fun createNotificationChannel(builder:NotificationCompat.Builder,notificationId:Int) {
@@ -104,3 +108,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
+
