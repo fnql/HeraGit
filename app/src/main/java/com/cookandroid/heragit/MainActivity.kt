@@ -18,25 +18,18 @@ import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import android.os.AsyncTask
 
-
-
-
-
 class MainActivity : AppCompatActivity() {
     var textTitle = "Do github"
     var textContent = "오늘 커밋이 없어요"
     var CHANNEL_ID = "MYch"
     var CHANNEL_NAME = "ch1"
     var notificationId:Int = 1002
-
 //    https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val TAG:String = "MainActivity### : "
-
-
 
         button.setOnClickListener {
             var builder = NotificationCompat.Builder(this, CHANNEL_ID)
@@ -81,8 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 //https://calvinjmkim.tistory.com/16
-
-
+    
     private fun createNotificationChannel(builder:NotificationCompat.Builder,notificationId:Int) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
