@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 //https://calvinjmkim.tistory.com/16
-    
+
     private fun createNotificationChannel(builder:NotificationCompat.Builder,notificationId:Int) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
