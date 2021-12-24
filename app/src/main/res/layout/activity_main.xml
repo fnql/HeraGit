@@ -18,7 +18,6 @@
         android:text="api_Test"
         android:id="@+id/api_btn"/>
 
-<!--TODO: 1.알림보내기 -->
 <!--TODO: 2.GitApi쓰는법배우기-->
 <!--TODO: 3.안드로이드스튜디오api사용법-->
 </LinearLayout>

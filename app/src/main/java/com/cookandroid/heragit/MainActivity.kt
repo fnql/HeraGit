@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     var CHANNEL_ID = "MYch"
     var CHANNEL_NAME = "ch1"
     var notificationId:Int = 1002
-    val GitApi = "token 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"
+    val GitApi = "token"
 //    https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
 
     override fun onCreate(savedInstanceState: Bundle?) {
