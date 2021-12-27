@@ -24,13 +24,14 @@ class MainActivity : AppCompatActivity() {
     var CHANNEL_ID = "MYch"
     var CHANNEL_NAME = "ch1"
     var notificationId:Int = 1002
-    val GitApi = "token"
+    var aa = BuildConfig.GITHUB_API_KEY
+
 //    https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val TAG:String = "MainActivity### : "
+        val TAG:String = "MainActivity : "
 
         button.setOnClickListener {
             var builder = NotificationCompat.Builder(this, CHANNEL_ID)
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity() {
 
                         // Set the result
                         result = builder.toString()
+
                     } catch (e: Exception) {
                         // Error calling the rest api
                         Log.e("REST_API", "GET method failed: " + e.message)
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     return result
                 }
             }
-            Log.d(TAG, asyncTask.toString())
+
         }
 
     }
