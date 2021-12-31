@@ -29,15 +29,18 @@ import org.json.JSONObject
 import org.json.JSONArray
 
 import android.R.attr.key
+import android.nfc.Tag
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 
 import android.widget.ArrayAdapter
 import android.widget.Button
+import com.google.gson.Gson
 import java.io.IOException
 import java.net.MalformedURLException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     var CHANNEL_ID = "MYch"
     var CHANNEL_NAME = "ch1"
     var notificationId:Int = 1002
-    val url = URL("https://api.github.com/users/fnql/events")
+    val url = URL("https://api.github.com/users/fnql/events?per_page=1")
 
 /*  BuildConfig.GITHUB_API_KEY
     https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
@@ -75,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                         // Open the connection
 
                         val conn = url.openConnection() as HttpURLConnection
+                        conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
                         conn.requestMethod = "GET"
                         val ism = conn.inputStream
                         // Get the stream
@@ -95,71 +99,19 @@ class MainActivity : AppCompatActivity() {
                     }
                     return result
                 }
+
+                override fun onPostExecute(result: String?) {
+                    onNetworkFinished(result.toString())
+                }
             }
 
+            asyncTask.execute()
+            //Log.d("Tag", aaa.toString())
         }
-
-
-        btnData.setOnClickListener {
-                object : Thread() {
-                    override fun run() {
-                        items.clear()
-                        val date = Date()
-                        date.setTime(date.getTime() - 1000 * 60 * 60 * 24) // 현재의 날짜에서 1일을 뺀 날짜
-                        val sdf = SimpleDateFormat("yyyyMMdd")
-                        val dateStr: String = sdf.format(date) // 20210316
-                        val urlAddress: String =
-                            address.toString() + "?key=" + key + "&targetDt=" + dateStr
-                        try {
-                            val url = URL(urlAddress)
-                            val `is` = url.openStream()
-                            val isr = InputStreamReader(`is`)
-                            val reader = BufferedReader(isr)
-                            val buffer = StringBuffer()
-                            var line = reader.readLine()
-                            while (line != null) {
-                                buffer.append(
-                                    """
-                                $line
-                                
-                                """.trimIndent()
-                                )
-                                line = reader.readLine()
-                            }
-                            val jsonData = buffer.toString()
-
-                            // jsonData를 먼저 JSONObject 형태로 바꾼다.
-                            val obj = JSONObject(jsonData)
-                            // obj의 "boxOfficeResult"의 JSONObject를 추출
-                            val boxOfficeResult = obj["boxOfficeResult"] as JSONObject
-                            // boxOfficeResult의 JSONObject에서 "dailyBoxOfficeList"의 JSONArray 추출
-                            val dailyBoxOfficeList =
-                                boxOfficeResult["dailyBoxOfficeList"] as JSONArray
-                            for (i in 0 until dailyBoxOfficeList.length()) {
-                                val temp = dailyBoxOfficeList.getJSONObject(i)
-                                val movieNm = temp.getString("movieNm")
-                                items.add(movieNm)
-                            }
-                            runOnUiThread { adapter.notifyDataSetChanged() }
-                        } catch (e: MalformedURLException) {
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-                    }
-                }.start()
-            }
-        // 리스트뷰의 아이템 클릭 이벤트 > 토스트 메시지 띄우기
-        // 리스트뷰의 아이템 클릭 이벤트 > 토스트 메시지 띄우기
-        listView.setOnItemClickListener(OnItemClickListener { parent, view, position, id ->
-            val data = parent.getItemAtPosition(position) as String
-            Toast.makeText(this@MainActivity, data, Toast.LENGTH_SHORT).show()
-        })
 
     }
 //https://calvinjmkim.tistory.com/16
+    //콜 함수 데이터 메인에서 쓰는법
 
     private fun createNotificationChannel(builder:NotificationCompat.Builder,notificationId:Int) {
         // Create the NotificationChannel, but only on API 26+ because
@@ -184,6 +136,12 @@ class MainActivity : AppCompatActivity() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(notificationId,builder.build())
         }
+    }
+
+    private fun onNetworkFinished(result: String) {
+        var gson = Gson()
+        var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
+        Log.d("Test",testModel[0].actor.id)
     }
 }
 
