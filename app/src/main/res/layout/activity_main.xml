@@ -18,17 +18,6 @@
         android:text="api_Test"
         android:id="@+id/api_btn"/>
 
-    <Button
-        android:id="@+id/btnData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="데이터 불러오기"
-        android:textAllCaps="false"></Button>
-
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
 <!--TODO: 2.GitApi쓰는법배우기-->
 <!--TODO: 3.안드로이드스튜디오api사용법-->
 </LinearLayout>

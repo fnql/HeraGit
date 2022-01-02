@@ -141,7 +141,11 @@ class MainActivity : AppCompatActivity() {
     private fun onNetworkFinished(result: String) {
         var gson = Gson()
         var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
-        Log.d("Test",testModel[0].actor.id)
+        val commitTime = testModel[0].created_at.substring(0 until 10)
+        val commitUser = testModel[0].payload.commits[0].author.name
+        Log.d("Test",commitUser)
+
+        Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
     }
 }
 
