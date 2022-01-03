@@ -19,28 +19,8 @@ import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import android.os.AsyncTask
 import android.widget.Toast
-
-import android.widget.AdapterView
-
-import org.json.JSONException
-
-import org.json.JSONObject
-
-import org.json.JSONArray
-
-import android.R.attr.key
-import android.nfc.Tag
-import android.view.View
-import android.widget.AdapterView.OnItemClickListener
-
-import android.widget.ArrayAdapter
-import android.widget.Button
 import com.google.gson.Gson
-import java.io.IOException
-import java.net.MalformedURLException
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
