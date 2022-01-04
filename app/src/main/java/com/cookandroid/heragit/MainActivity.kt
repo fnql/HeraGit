@@ -19,6 +19,7 @@ import java.lang.StringBuilder
 import java.net.HttpURLConnection
 import android.os.AsyncTask
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import java.util.*
 
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
     https://jbin0512.tistory.com/118*/
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -87,6 +89,21 @@ class MainActivity : AppCompatActivity() {
 
             asyncTask.execute()
             //Log.d("Tag", aaa.toString())
+        }
+
+        alarm_btn.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, timer.getHour());
+            calendar.set(Calendar.MINUTE, timer.getMinute());
+
+            val hour: Int = timer.getHour()
+            val minute: Int = timer.getMinute()
+            Toast.makeText(
+                this,
+                "Alarm 예정 " + hour + "시 " + minute + "분",
+                Toast.LENGTH_SHORT
+            ).show()
+
         }
 
     }

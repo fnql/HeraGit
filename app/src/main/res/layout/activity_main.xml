@@ -18,6 +18,19 @@
         android:text="api_Test"
         android:id="@+id/api_btn"/>
 
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/timer"
+        android:timePickerMode="spinner"/>
+    <Button
+        android:id="@+id/alarm_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="알림 시간"/>
+
 <!--TODO: 2.GitApi쓰는법배우기-->
 <!--TODO: 3.안드로이드스튜디오api사용법-->
 </LinearLayout>
