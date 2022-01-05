@@ -1,8 +1,10 @@
 package com.cookandroid.heragit
 
 import android.R.attr
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Color
 import android.os.*
@@ -31,6 +33,8 @@ class MainActivity : AppCompatActivity() {
     var CHANNEL_NAME = "ch1"
     var notificationId:Int = 1002
     val url = URL("https://api.github.com/users/fnql/events?per_page=1")
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
 
 /*  BuildConfig.GITHUB_API_KEY
     https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
@@ -40,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        timer.setIs24HourView(true)
         val TAG:String = "MainActivity : "
 
         button.setOnClickListener {
@@ -91,19 +96,36 @@ class MainActivity : AppCompatActivity() {
             //Log.d("Tag", aaa.toString())
         }
 
-        alarm_btn.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, timer.getHour());
-            calendar.set(Calendar.MINUTE, timer.getMinute());
+        alarm_start.setOnClickListener {
 
             val hour: Int = timer.getHour()
             val minute: Int = timer.getMinute()
+            val calendar: Calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+            }
+            alarmMgr?.setInexactRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                alarmIntent
+            )
+
             Toast.makeText(
                 this,
                 "Alarm 예정 " + hour + "시 " + minute + "분",
                 Toast.LENGTH_SHORT
             ).show()
 
+        }
+        alarm_cancel.setOnClickListener {
+            alarmMgr?.cancel(alarmIntent)
+            Toast.makeText(
+                this,
+                "Alarm 취소",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
