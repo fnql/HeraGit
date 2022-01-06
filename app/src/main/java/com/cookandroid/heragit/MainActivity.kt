@@ -6,6 +6,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,7 @@ import android.os.AsyncTask
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
+import java.security.AccessController.getContext
 import java.util.*
 
 
@@ -98,6 +100,10 @@ class MainActivity : AppCompatActivity() {
 
         alarm_start.setOnClickListener {
 
+            alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
+                PendingIntent.getBroadcast(this, 0, intent, 0)
+            }
             val hour: Int = timer.getHour()
             val minute: Int = timer.getMinute()
             val calendar: Calendar = Calendar.getInstance().apply {
@@ -112,15 +118,18 @@ class MainActivity : AppCompatActivity() {
                 alarmIntent
             )
 
-            Toast.makeText(
-                this,
-                "Alarm 예정 " + hour + "시 " + minute + "분",
-                Toast.LENGTH_SHORT
-            ).show()
+
 
         }
         alarm_cancel.setOnClickListener {
-            alarmMgr?.cancel(alarmIntent)
+            val alarmManager =
+                this.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+            val pendingIntent =
+                PendingIntent.getService(this, requestId, intent,
+                    PendingIntent.FLAG_NO_CREATE)
+            if (pendingIntent != null && alarmManager != null) {
+                alarmManager.cancel(pendingIntent)
+            }
             Toast.makeText(
                 this,
                 "Alarm 취소",
