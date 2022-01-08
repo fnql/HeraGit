@@ -2,6 +2,7 @@ package com.cookandroid.heragit
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -24,9 +25,23 @@ class AlarmReceiver : BroadcastReceiver() {
             Log.e("알람", System.currentTimeMillis().toString())
             Toast.makeText(context,"alram~~",Toast.LENGTH_SHORT).show()
         }
+
         val notificationManager =
             context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationIntent = Intent(context, MainActivity::class.java)
+        notificationIntent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP
+                or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        val pendingl = PendingIntent.getActivity(context,0,notificationIntent,0)
+
+
+        var builder = NotificationCompat.Builder(context!!, CHANNEL_ID)
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle(textTitle)
+            .setContentText(textContent)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        createNotificationChannel(builder,notificationId)
+
 
     }
 
@@ -43,7 +58,7 @@ class AlarmReceiver : BroadcastReceiver() {
             channel.lightColor = Color.BLUE
             channel.enableVibration(true)
             val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                getSystemService(builder.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
 
             notificationManager.notify(notificationId,builder.build())
