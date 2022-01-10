@@ -28,6 +28,7 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import java.security.AccessController.getContext
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 /*  BuildConfig.GITHUB_API_KEY
     https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
     https://jbin0512.tistory.com/118*/
-//TODO: Git 확인 후 diaryAlarm 실행하기
+//TODO: 매일 git 확인해서 알림 울리기
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             timer.setCurrentHour(22)
             timer.setCurrentMinute(0)
         }
+
         api_btn.setOnClickListener {
             val asyncTask = object : AsyncTask<Void, Int, String>() {
                 override fun doInBackground(vararg p0: Void?): String? {
@@ -97,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                     return result
                 }
 
+                @RequiresApi(Build.VERSION_CODES.O)
                 override fun onPostExecute(result: String?) {
                     onNetworkFinished(result.toString())
                 }
@@ -170,13 +173,19 @@ class MainActivity : AppCompatActivity() {
     }
 //https://calvinjmkim.tistory.com/16
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun onNetworkFinished(result: String) {
         var gson = Gson()
         var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
         val commitTime = testModel[0].created_at.substring(0 until 10)
         val commitUser = testModel[0].payload.commits[0].author.name
         Log.d("Test",commitUser)
-
+        val today = LocalDate.now()
+        if (commitTime.equals(today)){
+            Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
+        } else{
+            alarmSetting()
+        }
         Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
     }
 }
