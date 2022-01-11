@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             timer.setCurrentMinute(0)
         }
 
-        api_btn.setOnClickListener {
+        alarm_start.setOnClickListener {
             val asyncTask = object : AsyncTask<Void, Int, String>() {
                 override fun doInBackground(vararg p0: Void?): String? {
                     var result: String? = null
@@ -159,6 +159,7 @@ class MainActivity : AppCompatActivity() {
                 AlarmManager.INTERVAL_DAY,
                 alarmIntent
             )
+
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
                 alarmMgr?.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
@@ -181,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         val commitUser = testModel[0].payload.commits[0].author.name
         Log.d("Test",commitUser)
         val today = LocalDate.now()
-        if (commitTime.equals(today)){
+        if (commitTime.equals(today) && commitUser.equals("fnql") ){
             Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
         } else{
             alarmSetting()
