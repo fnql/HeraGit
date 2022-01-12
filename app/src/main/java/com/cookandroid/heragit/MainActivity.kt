@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity() {
 /*  BuildConfig.GITHUB_API_KEY
     https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
     https://jbin0512.tistory.com/118*/
-//TODO: 매일 git 확인해서 알림 울리기
+//TODO: 매일 알림 울리기
+    //커밋 있을 시 알람 활성화 22/1/12
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -184,8 +185,9 @@ class MainActivity : AppCompatActivity() {
         val today = LocalDate.now()
         if (commitTime.equals(today) && commitUser.equals("fnql") ){
             Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
-        } else{
             alarmSetting()
+        } else{
+
         }
         Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
     }
