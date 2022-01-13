@@ -37,9 +37,7 @@ class MainActivity : AppCompatActivity() {
     val url = URL("https://api.github.com/users/fnql/events?per_page=1")
 
 
-/*  BuildConfig.GITHUB_API_KEY
-    https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis--cms-27117
-    https://jbin0512.tistory.com/118*/
+/*  BuildConfig.GITHUB_API_KEY*/
 //TODO: 매일 알림 울리기
     //커밋 있을 시 알람 활성화 22/1/12
     @RequiresApi(Build.VERSION_CODES.M)
@@ -173,7 +171,6 @@ class MainActivity : AppCompatActivity() {
             PackageManager.DONT_KILL_APP)*/
         }
     }
-//https://calvinjmkim.tistory.com/16
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onNetworkFinished(result: String) {

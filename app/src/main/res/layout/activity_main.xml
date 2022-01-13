@@ -7,18 +7,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="알림보내기"
-        android:id="@+id/button"
-        android:layout_marginTop="50dp"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="api_Test"
-        android:id="@+id/api_btn"/>
-
     <TimePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,4 +36,3 @@
 
 
 </LinearLayout>
-<!--https://code.tutsplus.com/ko/tutorials/android-from-scratch-using-rest-apis&#45;&#45;cms-27117-->
