@@ -178,9 +178,8 @@ class MainActivity : AppCompatActivity() {
         var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
         val commitTime = testModel[0].created_at.substring(0 until 10)
         val commitUser = testModel[0].payload.commits[0].author.name
-        Log.d("Test",commitUser)
         val today = LocalDate.now()
-        if (commitTime.equals(today)){
+        if (commitTime.equals(today.toString())){
             Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
             alarmSetting()
         } else{
