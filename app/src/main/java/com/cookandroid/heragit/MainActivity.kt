@@ -180,11 +180,11 @@ class MainActivity : AppCompatActivity() {
         val commitUser = testModel[0].payload.commits[0].author.name
         Log.d("Test",commitUser)
         val today = LocalDate.now()
-        if (commitTime.equals(today) && commitUser.equals("fnql") ){
+        if (commitTime.equals(today)){
             Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
             alarmSetting()
         } else{
-
+            Toast.makeText(getApplicationContext(), "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
         }
         Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
     }

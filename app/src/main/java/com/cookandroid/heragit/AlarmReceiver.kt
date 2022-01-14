@@ -35,7 +35,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val pendingl = PendingIntent.getActivity(context,0,notificationIntent,0)
 
-
         var builder = NotificationCompat.Builder(context!!, channelId)
             .setSmallIcon(R.drawable.logo)
             .setContentTitle(textTitle)
@@ -54,7 +53,6 @@ class AlarmReceiver : BroadcastReceiver() {
             channel.enableVibration(true)
             notificationManager.createNotificationChannel(channel)
 
-
         }
         if (notificationManager != null){
             notificationManager.notify(notificationId,builder.build())
@@ -70,8 +68,5 @@ class AlarmReceiver : BroadcastReceiver() {
             Toast.makeText(context,"다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
 
         }
-
-
     }
-
 }
