@@ -69,46 +69,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         alarm_start.setOnClickListener {
-            val asyncTask = object : AsyncTask<Void, Int, String>() {
-                override fun doInBackground(vararg p0: Void?): String? {
-                    var result: String? = null
-                    try {
-                        // Open the connection
 
-                        val conn = url.openConnection() as HttpURLConnection
-                        conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
-                        conn.requestMethod = "GET"
-                        val ism = conn.inputStream
-                        // Get the stream
-                        val builder = StringBuilder()
-                        val reader = BufferedReader(InputStreamReader(ism, "UTF-8"))
-                        var line: String?
-                        while (reader.readLine().also { line = it } != null) {
-                            builder.append(line)
-                        }
-
-                        // Set the result
-                        result = builder.toString()
-
-                    } catch (e: Exception) {
-                        // Error calling the rest api
-                        Log.e("REST_API", "GET method failed: " + e.message)
-                        e.printStackTrace()
-                    }
-                    return result
-                }
-
-                @RequiresApi(Build.VERSION_CODES.O)
-                override fun onPostExecute(result: String?) {
-                    onNetworkFinished(result.toString())
-                }
-            }
-
-            asyncTask.execute()
-            //Log.d("Tag", aaa.toString())
         }
 
-        //alarm_start.setOnClickListener {}
         alarm_cancel.setOnClickListener {
             var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             var intent = Intent(this, AlarmReceiver::class.java)
@@ -170,6 +133,44 @@ class MainActivity : AppCompatActivity() {
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
             PackageManager.DONT_KILL_APP)*/
         }
+    }
+    private fun gitApiCheck(){
+        val asyncTask = object : AsyncTask<Void, Int, String>() {
+            override fun doInBackground(vararg p0: Void?): String? {
+                var result: String? = null
+                try {
+                    // Open the connection
+
+                    val conn = url.openConnection() as HttpURLConnection
+                    conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
+                    conn.requestMethod = "GET"
+                    val ism = conn.inputStream
+                    // Get the stream
+                    val builder = StringBuilder()
+                    val reader = BufferedReader(InputStreamReader(ism, "UTF-8"))
+                    var line: String?
+                    while (reader.readLine().also { line = it } != null) {
+                        builder.append(line)
+                    }
+
+                    // Set the result
+                    result = builder.toString()
+
+                } catch (e: Exception) {
+                    // Error calling the rest api
+                    Log.e("REST_API", "GET method failed: " + e.message)
+                    e.printStackTrace()
+                }
+                return result
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onPostExecute(result: String?) {
+                onNetworkFinished(result.toString())
+            }
+        }
+
+        asyncTask.execute()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
