@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         alarm_start.setOnClickListener {
-
+            gitApiCheck()
         }
 
         alarm_cancel.setOnClickListener {
@@ -109,11 +109,12 @@ class MainActivity : AppCompatActivity() {
     private fun diaryAlarm(calendar: Calendar) {
         val diaryAl:Boolean = true
         val pm = this.packageManager
+        val receiver = ComponentName(this,DeviceBootReceiver::class.java)
         var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(this, 0, intent, 0)
         }
-//        val receiver = ComponentName(this,DeviceBootReceiver::class.java)
+
         if (diaryAl){
             alarmMgr?.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
@@ -122,16 +123,9 @@ class MainActivity : AppCompatActivity() {
                 alarmIntent
             )
 
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                alarmMgr?.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    alarmIntent
-                )
-            }
-/*            pm.setComponentEnabledSetting(receiver,
+            pm.setComponentEnabledSetting(receiver,
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP)*/
+            PackageManager.DONT_KILL_APP)
         }
     }
     private fun gitApiCheck(){
@@ -182,9 +176,10 @@ class MainActivity : AppCompatActivity() {
         val today = LocalDate.now()
         if (commitTime.equals(today.toString())){
             Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
-            alarmSetting()
+
         } else{
             Toast.makeText(getApplicationContext(), "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
+            alarmSetting()
         }
         Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
     }
