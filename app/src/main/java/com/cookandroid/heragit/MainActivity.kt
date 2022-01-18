@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
 /*  BuildConfig.GITHUB_API_KEY*/
-//TODO: 매일 알림 울리기
+//TODO: 타이머 핸드폰에 부하여부 확인후 타이머로 git 확인하기
     //커밋 있을 시 알람 활성화 22/1/12
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun diaryAlarm(calendar: Calendar) {
-        val diaryAl:Boolean = true
+        val diaryAl:Boolean = false
         val pm = this.packageManager
         val receiver = ComponentName(this,DeviceBootReceiver::class.java)
         var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
