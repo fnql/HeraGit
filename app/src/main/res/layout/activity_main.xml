@@ -34,5 +34,12 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/timer_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="타이머"/>
+
 
 </LinearLayout>

@@ -71,6 +71,12 @@ class MainActivity : AppCompatActivity() {
         alarm_start.setOnClickListener {
             gitApiCheck()
         }
+        val timer = Timer()
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                gitApiCheck()
+            }
+        }
 
         alarm_cancel.setOnClickListener {
             var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -82,6 +88,11 @@ class MainActivity : AppCompatActivity() {
                 "Alarm 취소",
                 Toast.LENGTH_SHORT
             ).show()
+            timer.cancel();
+        }
+
+        timer_start.setOnClickListener {
+            timer.schedule(timerTask, 0, 10000);
         }
 
     }
