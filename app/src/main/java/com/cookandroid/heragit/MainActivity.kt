@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
 /*  BuildConfig.GITHUB_API_KEY*/
 //TODO: 타이머 핸드폰에 부하여부 확인후 타이머로 git 확인하기
-    //커밋 있을 시 알람 활성화 22/1/12
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         alarm_start.setOnClickListener {
             gitApiCheck()
         }
-        val timer = Timer()
+        val timer_alarm = Timer()
         val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
                 gitApiCheck()
@@ -81,18 +80,18 @@ class MainActivity : AppCompatActivity() {
         alarm_cancel.setOnClickListener {
             var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             var intent = Intent(this, AlarmReceiver::class.java)
-            var pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
+            var pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_MUTABLE)
             alarmMgr.cancel(pendingIntent)
             Toast.makeText(
                 this,
                 "Alarm 취소",
                 Toast.LENGTH_SHORT
             ).show()
-            timer.cancel();
+            timer_alarm.cancel();
         }
 
         timer_start.setOnClickListener {
-            timer.schedule(timerTask, 0, 10000);
+            timer_alarm.schedule(timerTask, 0, 10000);
         }
 
     }
@@ -123,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         val receiver = ComponentName(this,DeviceBootReceiver::class.java)
         var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, 0, intent, 0)
+            PendingIntent.getBroadcast(this, 0, intent,  PendingIntent.FLAG_MUTABLE)
         }
 
         if (diaryAl){
@@ -189,8 +188,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
 
         } else{
-            Toast.makeText(getApplicationContext(), "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
-            alarmSetting()
+            //Toast.makeText(getApplicationContext(), "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
+            //alarmSetting()
+            Log.e("AlarmTest","timer Test 커밋X 상황")
         }
         Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
     }
