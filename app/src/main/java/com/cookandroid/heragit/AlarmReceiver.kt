@@ -41,7 +41,7 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentText(textContent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingl)
-
+        Log.e("알람 작동 유무", Build.VERSION.SDK_INT.toString())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             val descriptionText = "1번 채널"
@@ -49,6 +49,7 @@ class AlarmReceiver : BroadcastReceiver() {
             val channel = NotificationChannel(channelId, channelName, importance).apply {
                 description = descriptionText
             }
+
             channel.lightColor = Color.BLUE
             channel.enableVibration(true)
             notificationManager.createNotificationChannel(channel)

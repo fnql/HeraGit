@@ -68,31 +68,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         alarm_start.setOnClickListener {
-            gitApiCheck()
+            alarmSetting()
         }
-        val timer_alarm = Timer()
-        val timerTask: TimerTask = object : TimerTask() {
-            override fun run() {
-                gitApiCheck()
-            }
-        }
+
 
         alarm_cancel.setOnClickListener {
             var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             var intent = Intent(this, AlarmReceiver::class.java)
-            var pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_MUTABLE)
+            var pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
             alarmMgr.cancel(pendingIntent)
             Toast.makeText(
                 this,
                 "Alarm 취소",
                 Toast.LENGTH_SHORT
             ).show()
-            timer_alarm.cancel();
         }
 
-        timer_start.setOnClickListener {
-            timer_alarm.schedule(timerTask, 0, 10000);
-        }
 
     }
     @RequiresApi(Build.VERSION_CODES.M)
@@ -109,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         }
         val currentDateTime=calendar.getTime()
         val date_text = SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분",Locale.getDefault()).format(currentDateTime)
-        Toast.makeText(this,"다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,"***다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
         val editor = getSharedPreferences("daily", MODE_PRIVATE).edit()
         editor.putLong("nextDate",calendar.timeInMillis)
 
@@ -117,12 +108,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun diaryAlarm(calendar: Calendar) {
-        val diaryAl:Boolean = false
+        val diaryAl:Boolean = true
         val pm = this.packageManager
         val receiver = ComponentName(this,DeviceBootReceiver::class.java)
         var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, 0, intent,  PendingIntent.FLAG_MUTABLE)
+            PendingIntent.getBroadcast(this, 0, intent,  0)
         }
 
         if (diaryAl){
@@ -133,67 +124,12 @@ class MainActivity : AppCompatActivity() {
                 alarmIntent
             )
 
-            pm.setComponentEnabledSetting(receiver,
+            /*pm.setComponentEnabledSetting(receiver,
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP)
+            PackageManager.DONT_KILL_APP)*/
         }
     }
-    private fun gitApiCheck(){
-        val asyncTask = object : AsyncTask<Void, Int, String>() {
-            override fun doInBackground(vararg p0: Void?): String? {
-                var result: String? = null
-                try {
-                    // Open the connection
 
-                    val conn = url.openConnection() as HttpURLConnection
-                    conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
-                    conn.requestMethod = "GET"
-                    val ism = conn.inputStream
-                    // Get the stream
-                    val builder = StringBuilder()
-                    val reader = BufferedReader(InputStreamReader(ism, "UTF-8"))
-                    var line: String?
-                    while (reader.readLine().also { line = it } != null) {
-                        builder.append(line)
-                    }
-
-                    // Set the result
-                    result = builder.toString()
-
-                } catch (e: Exception) {
-                    // Error calling the rest api
-                    Log.e("REST_API", "GET method failed: " + e.message)
-                    e.printStackTrace()
-                }
-                return result
-            }
-
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun onPostExecute(result: String?) {
-                onNetworkFinished(result.toString())
-            }
-        }
-
-        asyncTask.execute()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun onNetworkFinished(result: String) {
-        var gson = Gson()
-        var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
-        val commitTime = testModel[0].created_at.substring(0 until 10)
-        val commitUser = testModel[0].payload.commits[0].author.name
-        val today = LocalDate.now()
-        if (commitTime.equals(today.toString())){
-            Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
-
-        } else{
-            //Toast.makeText(getApplicationContext(), "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
-            //alarmSetting()
-            Log.e("AlarmTest","timer Test 커밋X 상황")
-        }
-        Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
-    }
 }
 
 
