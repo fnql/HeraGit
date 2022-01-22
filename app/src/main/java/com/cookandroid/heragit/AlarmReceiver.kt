@@ -7,13 +7,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
+import com.google.gson.Gson
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -69,5 +76,61 @@ class AlarmReceiver : BroadcastReceiver() {
             Toast.makeText(context,"다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
 
         }
+    }
+    private fun gitApiCheck(){
+        val asyncTask = object : AsyncTask<Void, Int, String>() {
+            override fun doInBackground(vararg p0: Void?): String? {
+                var result: String? = null
+                try {
+                    // Open the connection
+
+                    val conn = url.openConnection() as HttpURLConnection
+                    conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
+                    conn.requestMethod = "GET"
+                    val ism = conn.inputStream
+                    // Get the stream
+                    val builder = StringBuilder()
+                    val reader = BufferedReader(InputStreamReader(ism, "UTF-8"))
+                    var line: String?
+                    while (reader.readLine().also { line = it } != null) {
+                        builder.append(line)
+                    }
+
+                    // Set the result
+                    result = builder.toString()
+
+                } catch (e: Exception) {
+                    // Error calling the rest api
+                    Log.e("REST_API", "GET method failed: " + e.message)
+                    e.printStackTrace()
+                }
+                return result
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onPostExecute(result: String?) {
+                onNetworkFinished(result.toString())
+            }
+        }
+
+        asyncTask.execute()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun onNetworkFinished(result: String) {
+        var gson = Gson()
+        var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
+        val commitTime = testModel[0].created_at.substring(0 until 10)
+        val commitUser = testModel[0].payload.commits[0].author.name
+        val today = LocalDate.now()
+        if (commitTime.equals(today.toString())){
+            Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
+
+        } else{
+            //Toast.makeText(getApplicationContext(), "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
+            //alarmSetting()
+            Log.e("AlarmTest","timer Test 커밋X 상황")
+        }
+        Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
     }
 }
