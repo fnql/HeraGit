@@ -34,7 +34,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    val url = URL("https://api.github.com/users/fnql/events?per_page=1")
+
 
 
 /*  BuildConfig.GITHUB_API_KEY*/

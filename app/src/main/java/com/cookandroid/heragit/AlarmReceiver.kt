@@ -14,11 +14,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -29,12 +29,17 @@ class AlarmReceiver : BroadcastReceiver() {
     var channelId = "MYch"
     var channelName = "ch1"
     var notificationId:Int = 1002
+    val url = URL("https://api.github.com/users/fnql/events?per_page=1")
     override fun onReceive(context: Context?, intent: Intent?) {
         if(intent != null){
             Log.e("알람", System.currentTimeMillis().toString())
             Toast.makeText(context,"alram~~",Toast.LENGTH_SHORT).show()
         }
 
+        alarmStart(context,intent)
+    }
+
+    private fun alarmStart(context: Context?, intent: Intent?) {
         val notificationManager =
             context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationIntent = Intent(context, MainActivity::class.java)
@@ -77,12 +82,14 @@ class AlarmReceiver : BroadcastReceiver() {
 
         }
     }
-    private fun gitApiCheck(){
+
+    private fun gitApiCheck(context: Context?){
         val asyncTask = object : AsyncTask<Void, Int, String>() {
             override fun doInBackground(vararg p0: Void?): String? {
                 var result: String? = null
                 try {
                     // Open the connection
+
 
                     val conn = url.openConnection() as HttpURLConnection
                     conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
@@ -109,7 +116,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onPostExecute(result: String?) {
-                onNetworkFinished(result.toString())
+                onNetworkFinished(result.toString(),context)
             }
         }
 
@@ -117,20 +124,19 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun onNetworkFinished(result: String) {
+    private fun onNetworkFinished(result: String,context: Context?) {
         var gson = Gson()
         var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
         val commitTime = testModel[0].created_at.substring(0 until 10)
         val commitUser = testModel[0].payload.commits[0].author.name
         val today = LocalDate.now()
         if (commitTime.equals(today.toString())){
-            Toast.makeText(getApplicationContext(), "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
 
         } else{
-            //Toast.makeText(getApplicationContext(), "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
-            //alarmSetting()
+            Toast.makeText(context, "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest","timer Test 커밋X 상황")
         }
-        Toast.makeText(getApplicationContext(), commitUser+commitTime,Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, commitUser+commitTime,Toast.LENGTH_SHORT).show()
     }
 }
