@@ -35,11 +35,11 @@ class AlarmReceiver : BroadcastReceiver() {
             Log.e("알람", System.currentTimeMillis().toString())
             Toast.makeText(context,"alram~~",Toast.LENGTH_SHORT).show()
         }
+        gitApiCheck(context)
 
-        alarmStart(context,intent)
     }
 
-    private fun alarmStart(context: Context?, intent: Intent?) {
+    private fun alarmStart(context: Context?) {
         val notificationManager =
             context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationIntent = Intent(context, MainActivity::class.java)
@@ -54,6 +54,7 @@ class AlarmReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingl)
         Log.e("알람 작동 유무", Build.VERSION.SDK_INT.toString())
+        gitApiCheck(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             val descriptionText = "1번 채널"
@@ -124,7 +125,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun onNetworkFinished(result: String,context: Context?) {
+    private fun onNetworkFinished(result: String,context: Context?){
         var gson = Gson()
         var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
         val commitTime = testModel[0].created_at.substring(0 until 10)
@@ -132,11 +133,12 @@ class AlarmReceiver : BroadcastReceiver() {
         val today = LocalDate.now()
         if (commitTime.equals(today.toString())){
             Toast.makeText(context, "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
-
+            Log.e("AlarmTest", "OO $commitUser$commitTime OO")
+            alarmStart(context)
         } else{
             Toast.makeText(context, "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
-            Log.e("AlarmTest","timer Test 커밋X 상황")
+            Log.e("AlarmTest", "XX $commitUser$commitTime XX")
         }
-        Toast.makeText(context, commitUser+commitTime,Toast.LENGTH_SHORT).show()
+
     }
 }
