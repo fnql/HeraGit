@@ -129,15 +129,21 @@ class AlarmReceiver : BroadcastReceiver() {
         var gson = Gson()
         var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
         val commitTime = testModel[0].created_at.substring(0 until 10)
+        val commitHour = testModel[0].created_at.substring(12 until 13).toInt()
         val commitUser = testModel[0].payload.commits[0].author.name
         val today = LocalDate.now()
-        if (commitTime.equals(today.toString())){
+
+        // created_at시간이 현재 시간과 다름, 영국 시간으로 추측 한국-9시
+        //전날 15:00 ~ 당일 15:00까지 당일 커밋
+        if ((commitTime.equals(today.toString()) && commitHour<15) ||
+            (commitHour>=15 && commitTime.equals(today.minusDays(1).toString()))){
             Toast.makeText(context, "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest", "OO $commitUser$commitTime OO")
-            alarmStart(context)
+
         } else{
             Toast.makeText(context, "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest", "XX $commitUser$commitTime XX")
+            alarmStart(context)
         }
 
     }

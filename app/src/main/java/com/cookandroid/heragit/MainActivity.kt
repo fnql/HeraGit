@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
 /*  BuildConfig.GITHUB_API_KEY*/
-//TODO: 타이머 핸드폰에 부하여부 확인후 타이머로 git 확인하기
+//TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
