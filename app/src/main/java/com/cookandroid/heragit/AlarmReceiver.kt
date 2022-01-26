@@ -53,8 +53,6 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentText(textContent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingl)
-        Log.e("알람 작동 유무", Build.VERSION.SDK_INT.toString())
-        gitApiCheck(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             val descriptionText = "1번 채널"
@@ -135,8 +133,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
         // created_at시간이 현재 시간과 다름, 영국 시간으로 추측 한국-9시
         //전날 15:00 ~ 당일 15:00까지 당일 커밋
-        if ((commitTime.equals(today.toString()) && commitHour<15) ||
-            (commitHour>=15 && commitTime.equals(today.minusDays(1).toString()))){
+        if ((commitTime == today.toString() && commitHour<15) ||
+            (commitHour>=15 && commitTime == today.minusDays(1).toString())){
             Toast.makeText(context, "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest", "OO $commitUser$commitTime OO")
 
