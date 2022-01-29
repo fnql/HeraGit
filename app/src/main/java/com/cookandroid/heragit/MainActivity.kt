@@ -125,9 +125,9 @@ class MainActivity : AppCompatActivity() {
                 alarmIntent
             )
 
-            /*pm.setComponentEnabledSetting(receiver,
+            pm.setComponentEnabledSetting(receiver,
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP)*/
+            PackageManager.DONT_KILL_APP)
         }
     }
 

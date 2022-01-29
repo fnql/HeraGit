@@ -29,11 +29,11 @@ class AlarmReceiver : BroadcastReceiver() {
     var channelId = "MYch"
     var channelName = "ch1"
     var notificationId:Int = 1002
-    val url = URL("https://api.github.com/users/fnql/events?per_page=1")
+    val url = URL("https://api.github.com/users/fnql/events")
     override fun onReceive(context: Context?, intent: Intent?) {
         if(intent != null){
             Log.e("알람", System.currentTimeMillis().toString())
-            Toast.makeText(context,"alram~~",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,"alarm~~",Toast.LENGTH_SHORT).show()
         }
         gitApiCheck(context)
 
