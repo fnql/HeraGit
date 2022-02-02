@@ -35,11 +35,11 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/timer_start"
+        android:id="@+id/github_apps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="타이머"/>
+        android:text="git인증"/>
 
 
 </LinearLayout>
