@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -26,6 +27,7 @@ import android.os.AsyncTask
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
+import java.net.URI
 import java.security.AccessController.getContext
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -39,7 +41,8 @@ class MainActivity : AppCompatActivity() {
 
 /*  BuildConfig.GITHUB_API_KEY*/
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
-//todo: git apps로 제작해야함...ㅜㅜ
+//http://localhost:8080/auth/Heragit
+//http://localhost:8080/auth/Heragit//ok
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +86,10 @@ class MainActivity : AppCompatActivity() {
                 "Alarm 취소",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+        github_apps.setOnClickListener {
+            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("http://localhost:8080/auth/Heragit"))
+            startActivity(intent)
         }
 
 
