@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
 /*  BuildConfig.GITHUB_API_KEY*/
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
-//http://localhost:8080/auth/Heragit
+//http://localhost:8080/auth/Heragit 이거 인식X 모바일이라..?
 //http://localhost:8080/auth/Heragit//ok
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
         github_apps.setOnClickListener {
-            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://m.naver.com"))
+            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://naver.com"))
             startActivity(intent)
         }
 
