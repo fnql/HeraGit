@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
         github_apps.setOnClickListener {
-            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://naver.com"))
+            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://m.naver.com"))
             startActivity(intent)
         }
 
