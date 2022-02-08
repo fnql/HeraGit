@@ -44,6 +44,8 @@ class MainActivity : AppCompatActivity() {
 //TODO: 깃캣코드 참고해서 링크 연결하기
 //http://localhost:8080/auth/Heragit 이거 인식X 모바일이라..?
 //http://localhost:8080/auth/Heragit//ok
+//이거 변경해서 사용
+//https://github.com/login/oauth/authorize?scope=repo:status%20read:repo_hook%20user:email&client_id=
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
         github_apps.setOnClickListener {
-            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://m.naver.com"))
+            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo:status%20user:email&client_id=2f977b3d7307952e0d33"))
             startActivity(intent)
         }
 
