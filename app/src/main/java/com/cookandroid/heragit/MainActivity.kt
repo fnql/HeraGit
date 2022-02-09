@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
         github_apps.setOnClickListener {
-            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo:status%20user:email&client_id=2f977b3d7307952e0d33"))
+            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo:status%20user:email&client_id="))
             startActivity(intent)
         }
 
