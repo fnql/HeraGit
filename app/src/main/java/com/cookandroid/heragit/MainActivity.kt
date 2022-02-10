@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
         github_apps.setOnClickListener {
+            //링크타고 콜랙url에서 뒤code값 get요청으로 받으면 될듯
             val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo:status%20user:email&client_id="))
             startActivity(intent)
         }
