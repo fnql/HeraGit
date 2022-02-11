@@ -36,15 +36,12 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-
-
-
 /*  BuildConfig.GITHUB_API_KEY*/
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
 //TODO: 깃캣코드 참고해서 링크 연결하기
 //http://localhost:8080/auth/Heragit 이거 인식X 모바일이라..?
 //http://localhost:8080/auth/Heragit//ok
-//이거 변경해서 사용
+//이거 변경해서 사용 스프링 써야하나...
 //https://github.com/login/oauth/authorize?scope=repo:status%20read:repo_hook%20user:email&client_id=
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
