@@ -88,8 +88,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 var result: String? = null
                 try {
                     // Open the connection
-
-
                     val conn = url.openConnection() as HttpURLConnection
                     conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
                     conn.requestMethod = "GET"

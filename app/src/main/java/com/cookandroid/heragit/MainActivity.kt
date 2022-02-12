@@ -27,6 +27,8 @@ import android.os.AsyncTask
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.gson.Gson
+import java.io.IOException
+import java.net.MalformedURLException
 import java.net.URI
 import java.security.AccessController.getContext
 import java.text.SimpleDateFormat
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 /*  BuildConfig.GITHUB_API_KEY*/
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
 //TODO: 깃캣코드 참고해서 링크 연결하기
-//http://localhost:8080/auth/Heragit 이거 인식X 모바일이라..?
+
 //http://localhost:8080/auth/Heragit//ok
 //이거 변경해서 사용 스프링 써야하나...
 //https://github.com/login/oauth/authorize?scope=repo:status%20read:repo_hook%20user:email&client_id=
@@ -89,57 +91,57 @@ class MainActivity : AppCompatActivity() {
         }
         github_apps.setOnClickListener {
             //링크타고 콜랙url에서 뒤code값 get요청으로 받으면 될듯
-            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo:status%20user:email&client_id="))
+            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo:status%20user:email&client_id=2f977b3d7307952e0d33"))
             startActivity(intent)
-        }
 
+        }
 
     }
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun alarmSetting(){
-        val hour: Int = timer.getHour()
-        val minute: Int = timer.getMinute()
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, hour)
-            set(Calendar.MINUTE, minute)
+            @RequiresApi(Build.VERSION_CODES.M)
+            private fun alarmSetting(){
+                val hour: Int = timer.getHour()
+                val minute: Int = timer.getMinute()
+                val calendar: Calendar = Calendar.getInstance().apply {
+                    timeInMillis = System.currentTimeMillis()
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, minute)
+                }
+                if (calendar.before(Calendar.getInstance())){
+                    calendar.add(Calendar.DATE,1)
+                }
+                val currentDateTime=calendar.getTime()
+                val date_text = SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분",Locale.getDefault()).format(currentDateTime)
+                Toast.makeText(this,"***다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
+                val editor = getSharedPreferences("daily", MODE_PRIVATE).edit()
+                editor.putLong("nextDate",calendar.timeInMillis)
+
+                diaryAlarm(calendar)
+            }
+
+            private fun diaryAlarm(calendar: Calendar) {
+                val diaryAl:Boolean = true
+                val pm = this.packageManager
+                val receiver = ComponentName(this,DeviceBootReceiver::class.java)
+                var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
+                    PendingIntent.getBroadcast(this, 0, intent,  0)
+                }
+
+                if (diaryAl){
+                    alarmMgr?.setInexactRepeating(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        AlarmManager.INTERVAL_DAY,
+                        alarmIntent
+                    )
+
+                    pm.setComponentEnabledSetting(receiver,
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                        PackageManager.DONT_KILL_APP)
+                }
+            }
         }
-        if (calendar.before(Calendar.getInstance())){
-            calendar.add(Calendar.DATE,1)
-        }
-        val currentDateTime=calendar.getTime()
-        val date_text = SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분",Locale.getDefault()).format(currentDateTime)
-        Toast.makeText(this,"***다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
-        val editor = getSharedPreferences("daily", MODE_PRIVATE).edit()
-        editor.putLong("nextDate",calendar.timeInMillis)
 
-        diaryAlarm(calendar)
-    }
-
-    private fun diaryAlarm(calendar: Calendar) {
-        val diaryAl:Boolean = true
-        val pm = this.packageManager
-        val receiver = ComponentName(this,DeviceBootReceiver::class.java)
-        var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(this, 0, intent,  0)
-        }
-
-        if (diaryAl){
-            alarmMgr?.setInexactRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                alarmIntent
-            )
-
-            pm.setComponentEnabledSetting(receiver,
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP)
-        }
-    }
-
-}
 
 
 
