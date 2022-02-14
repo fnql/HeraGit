@@ -9,4 +9,9 @@ class Gitcallback : AppCompatActivity() {
         setContentView(R.layout.activity_gitcallback)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
 }

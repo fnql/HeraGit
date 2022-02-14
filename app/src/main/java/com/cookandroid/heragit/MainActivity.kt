@@ -1,36 +1,18 @@
 package com.cookandroid.heragit
 
-import android.R.attr
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.Uri
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.net.URL
-import android.util.Log
-import java.io.BufferedReader
-import java.lang.Exception
-import java.lang.StringBuilder
-import java.net.HttpURLConnection
-import android.os.AsyncTask
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.google.gson.Gson
-import java.io.IOException
-import java.net.MalformedURLException
-import java.net.URI
-import java.security.AccessController.getContext
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -77,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             alarmSetting()
         }
 
-
         alarm_cancel.setOnClickListener {
             var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             var intent = Intent(this, AlarmReceiver::class.java)
@@ -91,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
         github_apps.setOnClickListener {
             //링크타고 콜랙url에서 뒤code값 get요청으로 받으면 될듯
-            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo:status%20user:email&client_id=2f977b3d7307952e0d33"))
+            val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo,user&client_id=2f977b3d7307952e0d33"))
             startActivity(intent)
 
         }
