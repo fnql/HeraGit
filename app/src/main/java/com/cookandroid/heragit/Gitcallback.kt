@@ -8,7 +8,7 @@ class Gitcallback : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gitcallback)
     }
-
+//콜백 함수 받아서 code값만 사용하기
     override fun onResume() {
         super.onResume()
 
