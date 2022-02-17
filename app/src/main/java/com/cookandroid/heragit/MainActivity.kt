@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
@@ -77,6 +78,16 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+    override fun onResume() {
+        super.onResume()
+        val CALLBACK_URL = getString(R.string.github_callback)
+        val uri: Uri? = intent.data
+        Log.e("onResume",uri.toString())
+        if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
+            val access_token: String? = uri.getQueryParameter("access_token")
+            //access token 사용법, uri 잘 받아오는지 체크
+        }
     }
             @RequiresApi(Build.VERSION_CODES.M)
             private fun alarmSetting(){
