@@ -82,11 +82,12 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val CALLBACK_URL = getString(R.string.github_callback)
+        //intent.data null 오류
         val uri: Uri? = intent.data
         Log.e("onResume",uri.toString())
         if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
             val access_token: String? = uri.getQueryParameter("access_token")
-            //access token 사용법, uri 잘 받아오는지 체크
+
         }
     }
             @RequiresApi(Build.VERSION_CODES.M)
