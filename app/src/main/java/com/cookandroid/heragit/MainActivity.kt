@@ -23,11 +23,8 @@ class MainActivity : AppCompatActivity() {
 
 /*  BuildConfig.GITHUB_API_KEY*/
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
-//TODO: 깃캣코드 참고해서 링크 연결하기
 
-//http://localhost:8080/auth/Heragit//ok
-//이거 변경해서 사용 스프링 써야하나...
-//https://github.com/login/oauth/authorize?scope=repo:status%20read:repo_hook%20user:email&client_id=
+//http://localhost:8080/auth/Heragit//ok 사이트 사용 가능한걸로 해야하나?
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
