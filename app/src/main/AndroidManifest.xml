@@ -18,16 +18,7 @@
         <activity
             android:name=".Gitcallback"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="localhost:8080/auth/Heragit/ok"
-                    android:scheme="https"
-                    tools:ignore="AppLinkUrlError" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
@@ -36,6 +27,16 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="github-auth"
+                    android:scheme="HeraGit"
+                    tools:ignore="AppLinkUrlError" />
             </intent-filter>
         </activity>
 
