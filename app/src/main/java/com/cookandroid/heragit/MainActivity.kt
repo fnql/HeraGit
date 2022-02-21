@@ -20,8 +20,7 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
-import kotlinx.coroutines.launch
-import kotlin.math.log
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -141,11 +140,10 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent?.data?.getQueryParameter("code")?.let {
-            Log.e("onResume",it)
-            /*launch(coroutineContext){
+            launch(coroutineContext){
                 viewModel.getAccessToken(it)
                 Toast.makeText(this@MainActivity,"로그인 완료",Toast.LENGTH_SHORT).show()
-            }*/
+            }
         }
     }
 }
