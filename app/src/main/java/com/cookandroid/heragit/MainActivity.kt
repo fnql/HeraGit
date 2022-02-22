@@ -103,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         diaryAlarm(calendar)
     }
 
+
     private fun diaryAlarm(calendar: Calendar) {
         val diaryAl:Boolean = true
         val pm = this.packageManager
@@ -140,9 +141,11 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent?.data?.getQueryParameter("code")?.let {
-            launch(coroutineContext){
+
+            // 엑세스 토큰 받아와야함
+            launch(coroutineContext) {
                 viewModel.getAccessToken(it)
-                Toast.makeText(this@MainActivity,"로그인 완료",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }
