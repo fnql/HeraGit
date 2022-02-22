@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
@@ -16,9 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.GlobalScope.coroutineContext
-import java.net.URL
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 
@@ -143,7 +141,8 @@ class MainActivity : AppCompatActivity() {
         intent?.data?.getQueryParameter("code")?.let {
 
             // 엑세스 토큰 받아와야함
-            launch(coroutineContext) {
+            //https://developer88.tistory.com/214 class가 viewmodel?
+            ViewModelScope.launch(coroutineContext) {
                 viewModel.getAccessToken(it)
                 Toast.makeText(this@MainActivity, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
             }
