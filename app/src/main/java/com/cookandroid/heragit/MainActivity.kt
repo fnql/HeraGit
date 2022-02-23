@@ -140,8 +140,8 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         intent?.data?.getQueryParameter("code")?.let {
 
-            // 엑세스 토큰 받아와야함
-            //https://developer88.tistory.com/214 class가 viewmodel?
+            // 엑세스 토큰 받아와야함 get불가능
+            //https://developer88.tistory.com/214 class가 viewmodel
             ViewModelScope.launch(coroutineContext) {
                 viewModel.getAccessToken(it)
                 Toast.makeText(this@MainActivity, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
