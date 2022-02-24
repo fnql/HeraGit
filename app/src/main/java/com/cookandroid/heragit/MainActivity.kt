@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
@@ -138,11 +139,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        Log.e("onNewIntent",intent?.data.toString())
         intent?.data?.getQueryParameter("code")?.let {
 
             // 엑세스 토큰 받아와야함 get불가능
-            //https://developer88.tistory.com/214 class가 viewmodel
-            ViewModelScope.launch(coroutineContext) {
+            launch(coroutineContext) {
                 viewModel.getAccessToken(it)
                 Toast.makeText(this@MainActivity, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
             }
