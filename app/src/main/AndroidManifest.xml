@@ -16,8 +16,9 @@
         android:theme="@style/Theme.HeraGit"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Gitcallback"
-            android:exported="true" >
+            android:name=".GitCallBack"
+            android:exported="true"
+            tools:ignore="Instantiatable">
 
         </activity>
         <activity

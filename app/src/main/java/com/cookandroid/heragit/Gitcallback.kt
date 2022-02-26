@@ -11,7 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class Gitcallback : ViewModel() {
+class GitCallBack : ViewModel() {
 
 
 }
