@@ -143,12 +143,11 @@ class MainActivity : AppCompatActivity() {
         intent?.data?.getQueryParameter("code")?.let {
             val gitcode= it
             Log.e("onNewIntent",gitcode)
-            // 엑세스 토큰 받아와야함 get불가능
-            // launch말고 다른거
-/*            launch(coroutineContext) {
+            // 엑세스 토큰 받아와야함
+            launch(coroutineContext) {
                 viewmodel.getAccessToken(it)
                 Toast.makeText(this@MainActivity, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
-            }*/
+            }
         }
     }
 }
