@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
             it.launchUrl(context,loginUrl)
         }
     }
-
+    //https://example.com/callback
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.e("onNewIntent",intent?.data.toString())
@@ -144,10 +144,10 @@ class MainActivity : AppCompatActivity() {
             val gitcode= it
             Log.e("onNewIntent",gitcode)
             // 엑세스 토큰 받아와야함
-            launch(coroutineContext) {
+/*            launch(coroutineContext) {
                 viewmodel.getAccessToken(it)
                 Toast.makeText(this@MainActivity, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
-            }
+            }*/
         }
     }
 }
