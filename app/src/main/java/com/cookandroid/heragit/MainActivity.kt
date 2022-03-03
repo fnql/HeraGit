@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                 PackageManager.DONT_KILL_APP)
         }
     }
-    fun login(context: Context){
+    private fun login(context: Context){
         val loginUrl=Uri.Builder().scheme("https").authority("github.com")
             .appendPath("login")
             .appendPath("oauth")
@@ -136,6 +136,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //https://example.com/callback
+    //onResume?
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.e("onNewIntent",intent?.data.toString())
