@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.GlobalScope
@@ -18,12 +19,11 @@ class GitCallBack : AppCompatActivity() {
         super.onNewIntent(intent)
         Log.e("onNewIntent",intent?.data.toString())
         intent?.data?.getQueryParameter("code")?.let {
-            val gitcode= it
-            Log.e("onNewIntent",gitcode)
+            Log.e("onNewIntent",it)
             // 엑세스 토큰 받아와야함
             launch(GlobalScope.coroutineContext) {
                 viewmodel.getAccessToken(it)
-                Toast.makeText(this@MainActivity, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@GitCallBack, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }
