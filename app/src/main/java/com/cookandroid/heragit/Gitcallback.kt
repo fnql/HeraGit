@@ -21,10 +21,10 @@ class GitCallBack : AppCompatActivity() {
         intent?.data?.getQueryParameter("code")?.let {
             Log.e("onNewIntent",it)
             // 엑세스 토큰 받아와야함
-            launch(GlobalScope.coroutineContext) {
-                viewmodel.getAccessToken(it)
-                Toast.makeText(this@GitCallBack, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
-            }
+//            launch(GlobalScope.coroutineContext) {
+//                viewmodel.getAccessToken(it)
+//                Toast.makeText(this@GitCallBack, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+//            }
         }
     }
 }
