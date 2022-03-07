@@ -14,13 +14,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.GlobalScope.coroutineContext
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
 /*  BuildConfig.GITHUB_API_KEY*/
@@ -137,5 +138,16 @@ class MainActivity : AppCompatActivity() {
 
     //https://example.com/callback
     //onResume?
-
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Log.e("onNewIntent",intent?.data.toString())
+        intent?.data?.getQueryParameter("code")?.let {
+            Log.e("onNewIntent",it)
+            // 엑세스 토큰 받아와야함
+/*            launch(coroutineContext) {
+                viewmodel.getAccessToken(it)
+                Toast.makeText(this@MainActivity, "로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+            }*/
+        }
+    }
 }
