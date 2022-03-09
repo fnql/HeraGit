@@ -14,14 +14,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.GlobalScope.coroutineContext
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-@AndroidEntryPoint
+
 class MainActivity : AppCompatActivity() {
 
 /*  BuildConfig.GITHUB_API_KEY*/
