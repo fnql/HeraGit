@@ -127,18 +127,28 @@ class MainActivity : AppCompatActivity() {
             .appendPath("authorize")
             .appendQueryParameter("client_id",BuildConfig.GITHUB_CLIENT_ID)
             .build()
+        val intent = Intent(Intent.ACTION_VIEW,Uri.parse(loginUrl.toString()))
         CustomTabsIntent.Builder().build().also {
-            it.launchUrl(context,loginUrl)
+            startActivity(intent)
+        //it.launchUrl(context,loginUrl)
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+/*    override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.e("onNewIntent",intent?.data.toString())
+        Log.e("onNewIntent","실행 완료")
         intent?.data?.getQueryParameter("code")?.let {
             Log.e("onNewIntent",it)
             // 엑세스 토큰 받아와야함
 
+        }
+    }*/
+
+    override fun onNewIntent(intent: Intent?) {
+        // TODO Auto-generated method stub
+        super.onNewIntent(intent)
+        if (intent != null) {
+            val uri = intent.data
         }
     }
 }
