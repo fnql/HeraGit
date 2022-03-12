@@ -147,8 +147,14 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         // TODO Auto-generated method stub
         super.onNewIntent(intent)
+        Toast.makeText(this,"onNewIntent~~",Toast.LENGTH_SHORT).show()
         if (intent != null) {
             val uri = intent.data
+            Log.e("onNewIntent",uri.toString())
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 }
