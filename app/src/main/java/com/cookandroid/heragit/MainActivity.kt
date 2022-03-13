@@ -156,5 +156,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        val CALLBACK_URL = "heragit://github-auth"
+        val uri = intent.data
+        if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
+            val access_token = uri.getQueryParameter("access_token")
+        }
     }
 }
