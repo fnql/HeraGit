@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
             Log.e("onNewIntent",uri.toString())
         }
     }
-
+    //onresume 못받음
     override fun onResume() {
         super.onResume()
         val CALLBACK_URL = "heragit://github-auth"
