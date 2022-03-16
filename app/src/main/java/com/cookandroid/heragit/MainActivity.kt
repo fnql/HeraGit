@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         }
     }*/
 
-    override fun onNewIntent(intent: Intent?) {
+/*    override fun onNewIntent(intent: Intent?) {
         // TODO Auto-generated method stub
         super.onNewIntent(intent)
         Toast.makeText(this,"onNewIntent~~",Toast.LENGTH_SHORT).show()
@@ -152,8 +152,8 @@ class MainActivity : AppCompatActivity() {
             val uri = intent.data
             Log.e("onNewIntent",uri.toString())
         }
-    }
-    //onresume 못받음
+    }*/
+
     override fun onResume() {
         super.onResume()
         val CALLBACK_URL = "heragit://github-auth"
