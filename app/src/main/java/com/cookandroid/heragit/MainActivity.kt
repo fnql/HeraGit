@@ -143,15 +143,15 @@ class MainActivity : AppCompatActivity() {
 
         }
     }*/
-
-//    override fun onNewIntent(intent: Intent?) {
-//        super.onNewIntent(intent)
-//        Toast.makeText(this,"onNewIntent~~",Toast.LENGTH_SHORT).show()
-//        if (intent != null) {
-//            val uri = intent.data
-//            Log.e("onNewIntent",uri.toString())
-//        }
-//    }
+    //log 에러
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Toast.makeText(this,"onNewIntent~~",Toast.LENGTH_SHORT).show()
+        if (intent != null) {
+            val uri = intent.data
+            Log.e("onNewIntent",uri.toString())
+        }
+    }
 
     override fun onResume() {
         super.onResume()
