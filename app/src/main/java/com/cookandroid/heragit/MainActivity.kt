@@ -127,10 +127,9 @@ class MainActivity : AppCompatActivity() {
             .appendPath("authorize")
             .appendQueryParameter("client_id",BuildConfig.GITHUB_CLIENT_ID)
             .build()
-        val intent = Intent(Intent.ACTION_VIEW,Uri.parse(loginUrl.toString()))
+
         CustomTabsIntent.Builder().build().also {
-            startActivity(intent)
-        //it.launchUrl(context,loginUrl)
+            it.launchUrl(context,loginUrl)
         }
     }
 
@@ -143,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
         }
     }*/
-    //log 에러
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Toast.makeText(this,"onNewIntent~~",Toast.LENGTH_SHORT).show()
