@@ -25,6 +25,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".CallBackGit"
+            android:exported="true">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -33,6 +37,7 @@
                     android:host="github-auth"
                     android:scheme="heragit" />
             </intent-filter>
+
         </activity>
 
         <receiver android:name=".AlarmReceiver" />
