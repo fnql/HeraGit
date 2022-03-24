@@ -10,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
+import java.net.URL
 
 class CallBackGit:AppCompatActivity() {
+
+    val url = URL("https://github.com/login/oauth/access_token")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +64,7 @@ class CallBackGit:AppCompatActivity() {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onPostExecute(result: String?) {
-                onNetworkFinished(result.toString(),context)
+
             }
         }
 
