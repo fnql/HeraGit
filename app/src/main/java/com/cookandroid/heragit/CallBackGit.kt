@@ -30,6 +30,7 @@ class CallBackGit:AppCompatActivity() {
         if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
             val access_token = uri.getQueryParameter("code")
             Log.e("onResume",access_token.toString())
+            gitApiCheck(this)
         }
     }
 
@@ -40,7 +41,9 @@ class CallBackGit:AppCompatActivity() {
                 try {
                     // Open the connection
                     val conn = url.openConnection() as HttpURLConnection
-                    conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
+                    conn.addRequestProperty("code", "token ${BuildConfig.GITHUB_API_KEY}")
+                    conn.addRequestProperty("client_id", "token ${BuildConfig.GITHUB_CLIENT_ID}")
+                    conn.addRequestProperty("client_secret", "token ${BuildConfig.GITHUB_CLIENT_SECRET}")
                     conn.requestMethod = "GET"
                     val ism = conn.inputStream
                     // Get the stream
