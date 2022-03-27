@@ -30,11 +30,11 @@ class CallBackGit:AppCompatActivity() {
         if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
             val access_token = uri.getQueryParameter("code")
             Log.e("onResume",access_token.toString())
-            gitApiCheck(this)
+            gitApiCheck(this,access_token.toString())
         }
     }
 
-    private fun gitApiCheck(context: Context?){
+    private fun gitApiCheck(context: Context?,code : String){
         val asyncTask = object : AsyncTask<Void, Int, String>() {
             override fun doInBackground(vararg p0: Void?): String? {
                 var result: String? = null
@@ -44,7 +44,7 @@ class CallBackGit:AppCompatActivity() {
                     conn.addRequestProperty("code", "token ${BuildConfig.GITHUB_API_KEY}")
                     conn.addRequestProperty("client_id", "token ${BuildConfig.GITHUB_CLIENT_ID}")
                     conn.addRequestProperty("client_secret", "token ${BuildConfig.GITHUB_CLIENT_SECRET}")
-                    conn.requestMethod = "GET"
+                    conn.requestMethod = "POST"
                     val ism = conn.inputStream
                     // Get the stream
                     val builder = StringBuilder()
