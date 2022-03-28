@@ -41,9 +41,9 @@ class CallBackGit:AppCompatActivity() {
                 try {
                     // Open the connection
                     val conn = url.openConnection() as HttpURLConnection
-                    conn.addRequestProperty("code", "token ${BuildConfig.GITHUB_API_KEY}")
-                    conn.addRequestProperty("client_id", "token ${BuildConfig.GITHUB_CLIENT_ID}")
-                    conn.addRequestProperty("client_secret", "token ${BuildConfig.GITHUB_CLIENT_SECRET}")
+                    conn.addRequestProperty("Authorization", "client_id ${BuildConfig.GITHUB_CLIENT_ID}")
+                    conn.addRequestProperty("Authorization", "client_secret ${BuildConfig.GITHUB_CLIENT_SECRET}")
+                    conn.addRequestProperty("Authorization", "code ${code}")
                     conn.requestMethod = "POST"
                     val ism = conn.inputStream
                     // Get the stream
@@ -56,6 +56,7 @@ class CallBackGit:AppCompatActivity() {
 
                     // Set the result
                     result = builder.toString()
+                    Log.e("CallBack",result)
 
                 } catch (e: Exception) {
                     // Error calling the rest api

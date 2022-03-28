@@ -126,6 +126,7 @@ class MainActivity : AppCompatActivity() {
             .appendPath("oauth")
             .appendPath("authorize")
             .appendQueryParameter("client_id",BuildConfig.GITHUB_CLIENT_ID)
+            .appendQueryParameter("scope","repo")
             .build()
 
         CustomTabsIntent.Builder().build().also {
