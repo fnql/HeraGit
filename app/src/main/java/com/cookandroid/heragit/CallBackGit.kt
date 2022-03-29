@@ -20,7 +20,7 @@ class CallBackGit:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gitcallback)
     }
-
+//https://soeun-87.tistory.com/23
     override fun onResume() {
         super.onResume()
         val CALLBACK_URL = "heragit://github-auth"
@@ -30,48 +30,9 @@ class CallBackGit:AppCompatActivity() {
         if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
             val access_token = uri.getQueryParameter("code")
             Log.e("onResume",access_token.toString())
-            gitApiCheck(this,access_token.toString())
+
         }
     }
 
-    private fun gitApiCheck(context: Context?,code : String){
-        val asyncTask = object : AsyncTask<Void, Int, String>() {
-            override fun doInBackground(vararg p0: Void?): String? {
-                var result: String? = null
-                try {
-                    // Open the connection
-                    val conn = url.openConnection() as HttpURLConnection
-                    conn.addRequestProperty("Authorization", "client_id ${BuildConfig.GITHUB_CLIENT_ID}")
-                    conn.addRequestProperty("Authorization", "client_secret ${BuildConfig.GITHUB_CLIENT_SECRET}")
-                    conn.addRequestProperty("Authorization", "code ${code}")
-                    conn.requestMethod = "POST"
-                    val ism = conn.inputStream
-                    // Get the stream
-                    val builder = StringBuilder()
-                    val reader = BufferedReader(InputStreamReader(ism, "UTF-8"))
-                    var line: String?
-                    while (reader.readLine().also { line = it } != null) {
-                        builder.append(line)
-                    }
 
-                    // Set the result
-                    result = builder.toString()
-                    Log.e("CallBack",result)
-
-                } catch (e: Exception) {
-                    // Error calling the rest api
-                    Log.e("GIT_ACCESS_TOKEN", e.message.toString())
-                    e.printStackTrace()
-                }
-                return result
-            }
-
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun onPostExecute(result: String?) {
-
-            }
-        }
-
-        asyncTask.execute()
-    }
 }
