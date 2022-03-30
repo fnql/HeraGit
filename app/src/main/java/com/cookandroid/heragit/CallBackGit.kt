@@ -21,6 +21,7 @@ class CallBackGit:AppCompatActivity() {
         setContentView(R.layout.activity_gitcallback)
     }
 //https://soeun-87.tistory.com/23
+    //todo: okHttp 사용법
     override fun onResume() {
         super.onResume()
         val CALLBACK_URL = "heragit://github-auth"
