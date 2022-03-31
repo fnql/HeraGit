@@ -1,15 +1,13 @@
 package com.cookandroid.heragit
 
-import android.content.Context
-import android.os.AsyncTask
-import android.os.Build
+
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
 import java.net.URL
 
 class CallBackGit:AppCompatActivity() {
@@ -33,6 +31,14 @@ class CallBackGit:AppCompatActivity() {
             Log.e("onResume",access_token.toString())
 
         }
+    }
+
+    private fun getAccessToken(code:String){
+        val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val client = OkHttpClient()
+
+        val request=Request.Builder()
+            .header()
     }
 
 
