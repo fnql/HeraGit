@@ -38,6 +38,8 @@ class CallBackGit:AppCompatActivity() {
         val client = OkHttpClient()
 
         val request=Request.Builder()
+            .header()
+            .addHeader()
 
     }
 
