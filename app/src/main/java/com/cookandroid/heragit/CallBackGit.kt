@@ -38,8 +38,9 @@ class CallBackGit:AppCompatActivity() {
         val client = OkHttpClient()
 
         val request=Request.Builder()
-            .header("code",code)
-            .addHeader()
+            .header("client_id",BuildConfig.GITHUB_CLIENT_ID)
+            .addHeader("client_secret",BuildConfig.GITHUB_CLIENT_SECRET)
+            .addHeader("code",code)
 
     }
 
