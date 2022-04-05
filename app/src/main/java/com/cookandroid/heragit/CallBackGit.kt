@@ -41,7 +41,8 @@ class CallBackGit:AppCompatActivity() {
             .header("client_id",BuildConfig.GITHUB_CLIENT_ID)
             .addHeader("client_secret",BuildConfig.GITHUB_CLIENT_SECRET)
             .addHeader("code",code)
-
+            .url(url)
+            .build()
     }
 
 
