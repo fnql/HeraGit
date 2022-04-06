@@ -18,8 +18,10 @@ class CallBackGit:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gitcallback)
     }
-//https://soeun-87.tistory.com/23
     //todo: okHttp 사용법
+    //https://soeun-87.tistory.com/23
+    //oauth 참고 블로그
+    //https://codeac.tistory.com/107
     override fun onResume() {
         super.onResume()
         val CALLBACK_URL = "heragit://github-auth"
