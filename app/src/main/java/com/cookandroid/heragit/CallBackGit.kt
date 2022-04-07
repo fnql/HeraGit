@@ -4,10 +4,10 @@ package com.cookandroid.heragit
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import org.json.JSONObject
+import java.io.IOException
 import java.net.URL
 
 class CallBackGit:AppCompatActivity() {
@@ -45,6 +45,19 @@ class CallBackGit:AppCompatActivity() {
             .addHeader("code",code)
             .url(url)
             .build()
+
+        val response = client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                Thread{
+                    var str = response.body?.string()
+                    println(str)
+                }.start()
+            }
+        })
     }
 
 
