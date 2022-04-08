@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URL
@@ -30,8 +31,7 @@ class CallBackGit:AppCompatActivity() {
         Log.e("onResume",uri.toString())
         if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
             val access_token = uri.getQueryParameter("code")
-            Log.e("onResume",access_token.toString())
-
+            getAccessToken(access_token.toString())
         }
     }
 
@@ -39,14 +39,19 @@ class CallBackGit:AppCompatActivity() {
         val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
         val client = OkHttpClient()
 
+        val json = JSONObject()
+        json.put("client_id",BuildConfig.GITHUB_CLIENT_ID)
+        json.put("client_secret",BuildConfig.GITHUB_CLIENT_SECRET)
+        json.put("code",code)
+
+        val body = json.toString().toRequestBody(JSON)
         val request=Request.Builder()
-            .header("client_id",BuildConfig.GITHUB_CLIENT_ID)
-            .addHeader("client_secret",BuildConfig.GITHUB_CLIENT_SECRET)
-            .addHeader("code",code)
             .url(url)
+            .post(body)
             .build()
 
         val response = client.newCall(request).enqueue(object : Callback {
+
             override fun onFailure(call: Call, e: IOException) {
                 TODO("Not yet implemented")
             }
@@ -54,11 +59,9 @@ class CallBackGit:AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 Thread{
                     var str = response.body?.string()
-                    println(str)
+                    Log.e("response",str.toString())
                 }.start()
             }
         })
     }
-
-
 }
