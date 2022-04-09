@@ -46,6 +46,7 @@ class CallBackGit:AppCompatActivity() {
 
         val body = json.toString().toRequestBody(JSON)
         val request=Request.Builder()
+            .header("Accept","application/json")
             .url(url)
             .post(body)
             .build()
