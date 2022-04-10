@@ -46,7 +46,6 @@ class CallBackGit:AppCompatActivity() {
 
         val body = json.toString().toRequestBody(JSON)
         val request=Request.Builder()
-            .header("Accept","application/json")
             .url(url)
             .post(body)
             .build()
@@ -60,7 +59,15 @@ class CallBackGit:AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 Thread{
                     var str = response.body?.string()
-                    Log.e("response",str.toString())
+                    Log.e("response str : ",str.toString())
+                    if (str.toString() != null && str.toString().startsWith("access_token")) {
+                        var tokenLast= str.toString().indexOf("scope")
+                        var token=str.toString().substring(13,tokenLast-1)
+                        Log.e("response",token)
+                    }
+                    else{
+                        Log.e("response","str value error")
+                    }
                 }.start()
             }
         })

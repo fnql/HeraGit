@@ -126,23 +126,12 @@ class MainActivity : AppCompatActivity() {
             .appendPath("oauth")
             .appendPath("authorize")
             .appendQueryParameter("client_id",BuildConfig.GITHUB_CLIENT_ID)
-            .appendQueryParameter("scope","repo")
+            .appendQueryParameter("scope","repo:status")
             .build()
 
         CustomTabsIntent.Builder().build().also {
             it.launchUrl(context,loginUrl)
         }
     }
-
-/*    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        Log.e("onNewIntent","실행 완료")
-        intent?.data?.getQueryParameter("code")?.let {
-            Log.e("onNewIntent",it)
-            // 엑세스 토큰 받아와야함
-
-        }
-    }*/
-
 
 }
