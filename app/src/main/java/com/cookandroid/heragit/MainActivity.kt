@@ -14,6 +14,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.IOException
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,7 +30,8 @@ class MainActivity : AppCompatActivity() {
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
     //안드로이도 HeraGit://github-auth
 
-//http://localhost:8080/auth/Heragit//ok 사이트 사용 가능한걸로 해야하나?
+    val url = URL("https://github.com/login/oauth/access_token")
+    var token = ""
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,12 +76,59 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
         github_apps.setOnClickListener {
-            //링크타고 콜랙url에서 뒤code값 get요청으로 받으면 될듯
-            /*val intent=Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/login/oauth/authorize?scope=repo,user&client_id=2f977b3d7307952e0d33"))
-            startActivity(intent)*/
             login(this)
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val CALLBACK_URL = "heragit://github-auth"
+
+        val uri = intent.data
+        Log.e("onResume",uri.toString())
+        if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
+            val access_token = uri.getQueryParameter("code")
+            getAccessToken(access_token.toString())
+        }
+    }
+
+    private fun getAccessToken(code:String){
+        val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val client = OkHttpClient()
+
+        val json = JSONObject()
+        json.put("client_id",BuildConfig.GITHUB_CLIENT_ID)
+        json.put("client_secret",BuildConfig.GITHUB_CLIENT_SECRET)
+        json.put("code",code)
+
+        val body = json.toString().toRequestBody(JSON)
+        val request= Request.Builder()
+            .url(url)
+            .post(body)
+            .build()
+
+        val response = client.newCall(request).enqueue(object : Callback {
+
+            override fun onFailure(call: Call, e: IOException) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                Thread{
+                    var str = response.body?.string()
+                    Log.e("response str : ",str.toString())
+                    if (str.toString() != null && str.toString().startsWith("access_token")) {
+                        var tokenLast= str.toString().indexOf("scope")
+                        token=str.toString().substring(13,tokenLast-1)
+                        Log.e("response",token)
+                    }
+                    else{
+                        Log.e("response","str value error")
+                    }
+                }.start()
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -106,7 +160,9 @@ class MainActivity : AppCompatActivity() {
         var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(this, 0, intent,  0)
         }
-
+        val aint = Intent(this,AlarmReceiver::class.java)
+        Log.e("diaryAlarm", token)
+        aint.putExtra("accessToken",token)
         if (diaryAl){
             alarmMgr?.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
