@@ -28,7 +28,6 @@ class CallBackGit:AppCompatActivity() {
         val CALLBACK_URL = "heragit://github-auth"
 
         val uri = intent.data
-        Log.e("onResume",uri.toString())
         if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
             val access_token = uri.getQueryParameter("code")
             getAccessToken(access_token.toString())
