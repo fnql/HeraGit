@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                     if (str.toString() != null && str.toString().startsWith("access_token")) {
                         var tokenLast= str.toString().indexOf("scope")
                         token=str.toString().substring(13,tokenLast-1)
+                        //token 값 저장하는법
                         Log.e("response",token)
                     }
                     else{
