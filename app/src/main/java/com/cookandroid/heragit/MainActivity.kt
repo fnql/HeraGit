@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
@@ -14,6 +15,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
+import com.cookandroid.heragit.Model.OauthLogin
+import com.cookandroid.heragit.Model.OauthUser
+import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -32,12 +36,20 @@ class MainActivity : AppCompatActivity() {
 
     val url = URL("https://github.com/login/oauth/access_token")
     var token = ""
+    lateinit var pref: SharedPreferences
+    lateinit var editor : SharedPreferences.Editor
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        PreferenceEdit.init(this)
         timer.setIs24HourView(true)
         val TAG:String = "MainActivity : "
+
+        //shared preference 초기화
+        pref = getPreferences(Context.MODE_PRIVATE)
+        editor = pref.edit()
 
         val sharedPreferences = getSharedPreferences("daily", MODE_PRIVATE)
         val millis = sharedPreferences.getLong("nextDate",Calendar.getInstance().timeInMillis)
@@ -104,6 +116,7 @@ class MainActivity : AppCompatActivity() {
 
         val body = json.toString().toRequestBody(JSON)
         val request= Request.Builder()
+            .header("Accept","application/json")
             .url(url)
             .post(body)
             .build()
@@ -111,22 +124,43 @@ class MainActivity : AppCompatActivity() {
         val response = client.newCall(request).enqueue(object : Callback {
 
             override fun onFailure(call: Call, e: IOException) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onResponse(call: Call, response: Response) {
                 Thread{
                     var str = response.body?.string()
-                    Log.e("response str : ",str.toString())
-                    if (str.toString() != null && str.toString().startsWith("access_token")) {
-                        var tokenLast= str.toString().indexOf("scope")
-                        token=str.toString().substring(13,tokenLast-1)
-                        //token 값 저장하는법
-                        Log.e("response",token)
-                    }
-                    else{
-                        Log.e("response","str value error")
-                    }
+                    val res = Gson().fromJson<OauthLogin>(str, OauthLogin::class.java)
+
+                    PreferenceEdit.token = res.access_token
+                    getUserName()
+                }.start()
+            }
+        })
+    }
+
+    private fun getUserName(){
+        val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val client = OkHttpClient()
+        val nameUrl = URL("https://api.github.com/user")
+        val request= Request.Builder()
+            .header("Authorization","token ${PreferenceEdit.token}")
+            .url(nameUrl)
+            .get()
+            .build()
+
+        val response = client.newCall(request).enqueue(object : Callback {
+
+            override fun onFailure(call: Call, e: IOException) {
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                Thread{
+                    var str = response.body?.string()
+                    val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
+
+                    PreferenceEdit.url = res.url+"/events"
                 }.start()
             }
         })
@@ -161,9 +195,7 @@ class MainActivity : AppCompatActivity() {
         var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(this, 0, intent,  0)
         }
-        val aint = Intent(this,AlarmReceiver::class.java)
-        Log.e("diaryAlarm", token)
-        aint.putExtra("accessToken",token)
+
         if (diaryAl){
             alarmMgr?.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,

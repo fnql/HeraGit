@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Build
@@ -14,6 +15,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import com.cookandroid.heragit.Model.UserEvent
 import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -28,13 +30,18 @@ class AlarmReceiver : BroadcastReceiver() {
     var textContent = "오늘 커밋이 없어요"
     var channelId = "MYch"
     var channelName = "ch1"
-    var notificationId:Int = 1002
+    var notificationId: Int = 1002
     val url = URL("https://api.github.com/users/fnql/events")
+
+    lateinit var pref: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
+
     override fun onReceive(context: Context?, intent: Intent?) {
-        if(intent != null){
+        if (intent != null) {
             Log.e("알람", System.currentTimeMillis().toString())
-            Toast.makeText(context,"alarm~~",Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "alarm~~", Toast.LENGTH_SHORT).show()
         }
+
         gitApiCheck(context)
 
     }
@@ -45,7 +52,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val notificationIntent = Intent(context, MainActivity::class.java)
         notificationIntent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP
                 or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        val pendingl = PendingIntent.getActivity(context,0,notificationIntent,0)
+        val pendingl = PendingIntent.getActivity(context, 0, notificationIntent, 0)
 
         var builder = NotificationCompat.Builder(context!!, channelId)
             .setSmallIcon(R.drawable.logo)
@@ -66,30 +73,35 @@ class AlarmReceiver : BroadcastReceiver() {
             notificationManager.createNotificationChannel(channel)
 
         }
-        if (notificationManager != null){
-            notificationManager.notify(notificationId,builder.build())
+        if (notificationManager != null) {
+            notificationManager.notify(notificationId, builder.build())
             val nextTime = Calendar.getInstance()
-            nextTime.add(Calendar.DATE,1)
+            nextTime.add(Calendar.DATE, 1)
 
-            val editor = context.getSharedPreferences("daily", AppCompatActivity.MODE_PRIVATE).edit()
-            editor.putLong("nextDate",nextTime.timeInMillis)
+            val editor =
+                context.getSharedPreferences("daily", AppCompatActivity.MODE_PRIVATE).edit()
+            editor.putLong("nextDate", nextTime.timeInMillis)
             editor.apply()
 
-            val currentDateTime=nextTime.getTime()
-            val date_text = SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분",Locale.getDefault()).format(currentDateTime)
-            Toast.makeText(context,"다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
+            val currentDateTime = nextTime.getTime()
+            val date_text =
+                SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분", Locale.getDefault()).format(
+                    currentDateTime
+                )
+            Toast.makeText(context, "다음 알람은 " + date_text + "입니다.", Toast.LENGTH_SHORT).show()
 
         }
     }
 
-    private fun gitApiCheck(context: Context?){
+    private fun gitApiCheck(context: Context?) {
         val asyncTask = object : AsyncTask<Void, Int, String>() {
             override fun doInBackground(vararg p0: Void?): String? {
+
                 var result: String? = null
                 try {
                     // Open the connection
                     val conn = url.openConnection() as HttpURLConnection
-                    conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
+                    conn.addRequestProperty("Authorization", "token ${PreferenceEdit.token}")
                     conn.requestMethod = "GET"
                     val ism = conn.inputStream
                     // Get the stream
@@ -113,7 +125,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onPostExecute(result: String?) {
-                onNetworkFinished(result.toString(),context)
+                onNetworkFinished(result.toString(), context)
             }
         }
 
@@ -121,7 +133,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun onNetworkFinished(result: String,context: Context?){
+    private fun onNetworkFinished(result: String, context: Context?) {
         var gson = Gson()
         var testModel = gson.fromJson(result, Array<UserEvent>::class.java)
         val commitTime = testModel[0].created_at.substring(0 until 10)
@@ -131,13 +143,14 @@ class AlarmReceiver : BroadcastReceiver() {
 
         // created_at시간이 현재 시간과 다름, 영국 시간으로 추측 한국-9시
         //전날 15:00 ~ 당일 15:00까지 당일 커밋
-        if ((commitTime == today.toString() && commitHour<15) ||
-            (commitHour>=15 && commitTime == today.minusDays(1).toString())){
-            Toast.makeText(context, "오늘 커밋 완료!",Toast.LENGTH_SHORT).show()
+        if ((commitTime == today.toString() && commitHour < 15) ||
+            (commitHour >= 15 && commitTime == today.minusDays(1).toString())
+        ) {
+            Toast.makeText(context, "오늘 커밋 완료!", Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest", "OO $commitUser$commitTime OO")
 
-        } else{
-            Toast.makeText(context, "오늘 커밋 없음",Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "오늘 커밋 없음", Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest", "XX $commitUser$commitTime XX")
             alarmStart(context)
         }
