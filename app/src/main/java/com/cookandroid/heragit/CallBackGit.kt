@@ -12,7 +12,8 @@ import java.io.IOException
 import java.net.URL
 
 class CallBackGit:AppCompatActivity() {
-
+    //git adb 무선 디버깅
+    //https://iteastory.com/190
     val url = URL("https://github.com/login/oauth/access_token")
 
     override fun onCreate(savedInstanceState: Bundle?) {
