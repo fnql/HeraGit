@@ -34,10 +34,7 @@ class MainActivity : AppCompatActivity() {
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
     //안드로이도 HeraGit://github-auth
 
-    val url = URL("https://github.com/login/oauth/access_token")
-    var token = ""
-    lateinit var pref: SharedPreferences
-    lateinit var editor : SharedPreferences.Editor
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +43,6 @@ class MainActivity : AppCompatActivity() {
         PreferenceEdit.init(this)
         timer.setIs24HourView(true)
         val TAG:String = "MainActivity : "
-
-        //shared preference 초기화
-        pref = getPreferences(Context.MODE_PRIVATE)
-        editor = pref.edit()
 
         val sharedPreferences = getSharedPreferences("daily", MODE_PRIVATE)
         val millis = sharedPreferences.getLong("nextDate",Calendar.getInstance().timeInMillis)
@@ -93,77 +86,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        val CALLBACK_URL = "heragit://github-auth"
-
-        val uri = intent.data
-        if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
-            val access_token = uri.getQueryParameter("code")
-            getAccessToken(access_token.toString())
-        }
-    }
-
-    private fun getAccessToken(code:String){
-        val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
-        val client = OkHttpClient()
-
-        val json = JSONObject()
-        json.put("client_id",BuildConfig.GITHUB_CLIENT_ID)
-        json.put("client_secret",BuildConfig.GITHUB_CLIENT_SECRET)
-        json.put("code",code)
-
-        val body = json.toString().toRequestBody(JSON)
-        val request= Request.Builder()
-            .header("Accept","application/json")
-            .url(url)
-            .post(body)
-            .build()
-
-        val response = client.newCall(request).enqueue(object : Callback {
-
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                Thread{
-                    var str = response.body?.string()
-                    val res = Gson().fromJson<OauthLogin>(str, OauthLogin::class.java)
-
-                    PreferenceEdit.token = res.access_token
-                    getUserName()
-                }.start()
-            }
-        })
-    }
-
-    private fun getUserName(){
-        val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
-        val client = OkHttpClient()
-        val nameUrl = URL("https://api.github.com/user")
-        val request= Request.Builder()
-            .header("Authorization","token ${PreferenceEdit.token}")
-            .url(nameUrl)
-            .get()
-            .build()
-
-        val response = client.newCall(request).enqueue(object : Callback {
-
-            override fun onFailure(call: Call, e: IOException) {
-
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                Thread{
-                    var str = response.body?.string()
-                    val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
-
-                    PreferenceEdit.url = res.url+"/events"
-                }.start()
-            }
-        })
-    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun alarmSetting(){
@@ -189,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     private fun diaryAlarm(calendar: Calendar) {
         val diaryAl:Boolean = true
         val pm = this.packageManager
-        val receiver = ComponentName(this,DeviceBootReceiver::class.java)
+        //val receiver = ComponentName(this,DeviceBootReceiver::class.java)
         var alarmMgr = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(this, 0, intent,  0)
@@ -203,9 +125,9 @@ class MainActivity : AppCompatActivity() {
                 alarmIntent
             )
 
-            pm.setComponentEnabledSetting(receiver,
+/*            pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP)
+                PackageManager.DONT_KILL_APP)*/
         }
     }
     private fun login(context: Context){

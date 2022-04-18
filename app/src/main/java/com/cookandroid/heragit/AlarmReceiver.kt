@@ -31,7 +31,7 @@ class AlarmReceiver : BroadcastReceiver() {
     var channelId = "MYch"
     var channelName = "ch1"
     var notificationId: Int = 1002
-    val url = URL("https://api.github.com/users/fnql/events")
+    var url = URL(PreferenceEdit.url)
 
     lateinit var pref: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
