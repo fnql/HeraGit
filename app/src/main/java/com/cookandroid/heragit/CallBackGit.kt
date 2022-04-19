@@ -63,23 +63,18 @@ class CallBackGit:AppCompatActivity() {
             .url(url)
             .post(body)
             .build()
+        Thread {
+            val response = client.newCall(request).execute()
 
-        val response = client.newCall(request).enqueue(object : Callback {
+            var str :String?= response.body?.string()
+            val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
 
-            override fun onFailure(call: Call, e: IOException) {
-            }
+            PreferenceEdit.token=res.access_token
+        }.start()
 
-            override fun onResponse(call: Call, response: Response) {
-                Thread{
-                    var str :String?= response.body?.string()
-                    val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
-                    PreferenceEdit.token=res.access_token
 
-                }.start()
-                Log.e("getUserToken",PreferenceEdit.token)
-                getUserName()
-            }
-        })
+
+        getUserName()
     }
     private fun getUserName(){
         val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
@@ -91,20 +86,11 @@ class CallBackGit:AppCompatActivity() {
             .get()
             .build()
 
-        val response = client.newCall(request).enqueue(object : Callback {
+        val response = client.newCall(request).execute()
 
-            override fun onFailure(call: Call, e: IOException) {
+            var str = response.body?.string()
+            val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
 
-            }
-            override fun onResponse(call: Call, response: Response) {
-                Thread{
-                    var str = response.body?.string()
-                    val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
-
-                    PreferenceEdit.url = res.url+"/events"
-                }.start()
-                Log.e("CallBack",PreferenceEdit.url)
-            }
-        })
+            PreferenceEdit.url = res.url+"/events"
     }
 }
