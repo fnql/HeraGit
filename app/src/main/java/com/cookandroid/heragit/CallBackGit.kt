@@ -85,12 +85,14 @@ class CallBackGit:AppCompatActivity() {
             .url(nameUrl)
             .get()
             .build()
-
-        val response = client.newCall(request).execute()
+        Thread{
+            val response = client.newCall(request).execute()
 
             var str = response.body?.string()
             val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
 
             PreferenceEdit.url = res.url+"/events"
+        }
+
     }
 }
