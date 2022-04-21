@@ -47,7 +47,7 @@ class CallBackGit:AppCompatActivity() {
         }
     }
 //https://digitalbourgeois.tistory.com/59
-    //todo: enqueue는 비동기방식, 동기 방식으로 변경하기
+    //ToDo: Thread 작동 X 끝나고 콜백 함수 호출하기
     private fun getAccessToken(code:String){
         val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
         val client = OkHttpClient()
