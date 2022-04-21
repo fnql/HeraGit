@@ -63,17 +63,19 @@ class CallBackGit:AppCompatActivity() {
             .url(url)
             .post(body)
             .build()
-        Thread {
-            val response = client.newCall(request).execute()
 
-            var str :String?= response.body?.string()
-            val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
 
-            PreferenceEdit.token=res.access_token
+        object : Thread() {
+            override fun run() {
+                val response = client.newCall(request).execute()
+
+                var str :String?= response.body?.string()
+                val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
+                PreferenceEdit.token=res.access_token
+                Log.e("PreferenceEdit.token : ",PreferenceEdit.token)
+            }
         }.start()
-
-
-
+        Log.e("PreferenceEdit.token : ",PreferenceEdit.token)
         getUserName()
     }
     private fun getUserName(){
@@ -85,14 +87,17 @@ class CallBackGit:AppCompatActivity() {
             .url(nameUrl)
             .get()
             .build()
-        Thread{
-            val response = client.newCall(request).execute()
+        object : Thread() {
+            override fun run() {
+                val response = client.newCall(request).execute()
 
-            var str = response.body?.string()
-            val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
+                var str = response.body?.string()
+                val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
 
-            PreferenceEdit.url = res.url+"/events"
-        }
+                PreferenceEdit.url = res.url+"/events"
+            }
+        }.start()
+
 
     }
 }
