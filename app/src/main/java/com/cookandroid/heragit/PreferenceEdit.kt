@@ -10,7 +10,7 @@ object PreferenceEdit{
     private val PREF_URL = "URL"
     private val PREF_MODE = Context.MODE_PRIVATE
     private lateinit var sharedPreferences: SharedPreferences
-
+//todo: https://stickode.tistory.com/207 sharedPreferences 변경하기
     fun init(context: Context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, PREF_MODE)
     }
