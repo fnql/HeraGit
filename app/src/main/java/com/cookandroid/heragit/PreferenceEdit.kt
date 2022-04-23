@@ -11,6 +11,7 @@ object PreferenceEdit{
     private val PREF_MODE = Context.MODE_PRIVATE
     private lateinit var sharedPreferences: SharedPreferences
 //todo: https://stickode.tistory.com/207 sharedPreferences 변경하기
+    //https://leveloper.tistory.com/133
     fun init(context: Context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, PREF_MODE)
     }

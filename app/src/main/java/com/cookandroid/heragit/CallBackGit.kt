@@ -51,7 +51,6 @@ class CallBackGit:AppCompatActivity() {
     private fun getAccessToken(code:String){
     try{
 
-
         val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
         val client = OkHttpClient()
 
@@ -66,20 +65,20 @@ class CallBackGit:AppCompatActivity() {
             .url(url)
             .post(body)
             .build()
-                val response = client.newCall(request).execute()
+        val response = client.newCall(request).execute()
 
-                var str :String?= response.body?.string()
-                val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
-                PreferenceEdit.token=res.access_token
-                Log.e("PreferenceEdit.token : ",PreferenceEdit.token)
-
+        var str :String?= response.body?.string()
+        val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
+        PreferenceEdit.token=res.access_token
         Log.e("PreferenceEdit.token : ",PreferenceEdit.token)
+
         getUserName()
     } catch (e:Exception){
         System.err.println(e.toString())
     }
     }
     private fun getUserName(){
+        Log.e("getUserName",": Start")
         val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
         val client = OkHttpClient()
         val nameUrl = URL("https://api.github.com/user")
