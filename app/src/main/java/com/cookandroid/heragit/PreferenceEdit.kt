@@ -25,11 +25,11 @@ object PreferenceEdit{
     var token: String
         get() = sharedPreferences.getString(PREF_TOKEN, "").toString()
         set(value) = sharedPreferences.edit {
-            it.putString(PREF_TOKEN, value)
+            it.putString(PREF_TOKEN, value).apply()
         }
     var url: String
         get() = sharedPreferences.getString(PREF_URL, "").toString()
         set(value) = sharedPreferences.edit {
-            it.putString(PREF_URL, value)
+            it.putString(PREF_URL, value).apply()
         }
 }

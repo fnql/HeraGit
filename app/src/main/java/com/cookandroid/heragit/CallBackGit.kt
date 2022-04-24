@@ -69,8 +69,9 @@ class CallBackGit:AppCompatActivity() {
 
         var str :String?= response.body?.string()
         val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
-        PreferenceEdit.token=res.access_token
-        Log.e("PreferenceEdit.token : ",PreferenceEdit.token)
+        //PreferenceEdit.token=res.access_token
+        MyApplication.prefs.myEditText=res.access_token
+        Log.e("PreferenceEdit.token : ", MyApplication.prefs.myEditText!!)
 
         getUserName()
     } catch (e:Exception){

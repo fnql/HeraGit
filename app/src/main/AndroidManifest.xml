@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HeraGit"
         android:usesCleartextTraffic="true"
+        android:name=".MyApplication"
         >
 
         <activity
@@ -45,6 +46,7 @@
         <receiver android:name=".AlarmReceiver" />
         <receiver android:name=".DeviceBootReceiver" />
     </application>
+
 
 
 </manifest>
