@@ -44,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         timer.setIs24HourView(true)
         val TAG:String = "MainActivity : "
 
-        //val sharedPreferences = getSharedPreferences("daily", MODE_PRIVATE)
-        //val millis = sharedPreferences.getLong("nextDate",Calendar.getInstance().timeInMillis)
+        val sharedPreferences = getSharedPreferences("daily", MODE_PRIVATE)
+        val millis = sharedPreferences.getLong("nextDate",Calendar.getInstance().timeInMillis)
 
         val nextDate: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
