@@ -16,11 +16,11 @@ class PreferenceUtils(context: Context) {
         get() = prefs.getString(prefsKeyEdt, "")
         set(value) = prefs.edit().putString(prefsKeyEdt, value).apply()
 
-    var dayTime: String?
-        get() = prefs.getString(prefsKeyDaily,"" )
-        set(value) = prefs.edit().putString(prefsKeyDaily, value).apply()
+    var dayTime: Long?
+        get() = prefs.getLong(prefsKeyDaily,-1 )
+        set(value) = prefs.edit().putLong(prefsKeyDaily, value!!).apply()
 
-    var minTime: String?
-        get() = prefs.getString(prefsKeyDailyMin,"" )
-        set(value) = prefs.edit().putString(prefsKeyDailyMin, value).apply()
+    var minTime: Long?
+        get() = prefs.getLong(prefsKeyDailyMin,-1 )
+        set(value) = prefs.edit().putLong(prefsKeyDailyMin, value!!).apply()
 }

@@ -44,15 +44,19 @@ class MainActivity : AppCompatActivity() {
         timer.setIs24HourView(true)
         val TAG:String = "MainActivity : "
 
-        val sharedPreferences = getSharedPreferences("daily", MODE_PRIVATE)
-        val millis = sharedPreferences.getLong("nextDate",Calendar.getInstance().timeInMillis)
+
+        val millis = MyApplication.prefs.dayTime
 
         val nextDate: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 22)
             set(Calendar.MINUTE, 0)
         }
-        nextDate.setTimeInMillis(millis)
+        if (millis != null) {
+            nextDate.setTimeInMillis(millis)
+        } else{
+            Log.e("Main millis", "is Null")
+        }
         val currentDateTime=nextDate.getTime()
         val date_text = SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분",Locale.getDefault()).format(currentDateTime)
         Toast.makeText(this,"다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
@@ -102,9 +106,8 @@ class MainActivity : AppCompatActivity() {
         val currentDateTime=calendar.getTime()
         val date_text = SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분",Locale.getDefault()).format(currentDateTime)
         Toast.makeText(this,"***다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()
-        val editor = getSharedPreferences("daily", MODE_PRIVATE).edit()
-        editor.putLong("nextDate",calendar.timeInMillis)
 
+        MyApplication.prefs.dayTime=calendar.timeInMillis
         diaryAlarm(calendar)
     }
 
