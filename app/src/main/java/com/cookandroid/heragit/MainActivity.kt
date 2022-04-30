@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity() {
         //PreferenceEdit.init(this)
         timer.setIs24HourView(true)
         val TAG:String = "MainActivity : "
-
+        MyApplication.prefs.minTime=1
+        Log.e("MainActivity", MyApplication.prefs.minTime.toString())
 
         val millis = MyApplication.prefs.dayTime
 

@@ -10,7 +10,7 @@ class PreferenceUtils(context: Context) {
     private val prefsKeyEdt = "myEditText"
     private val prefsKeyDaily = "hours"
     private val prefsKeyDailyMin = "minute"
-    private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, 0)
+    private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, Context.MODE_PRIVATE)
 
     var myEditText: String?
         get() = prefs.getString(prefsKeyEdt, "")
