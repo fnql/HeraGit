@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
     //안드로이도 HeraGit://github-auth
 
-
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

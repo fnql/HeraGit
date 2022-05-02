@@ -21,16 +21,16 @@ class CallBackGit:AppCompatActivity() {
     //https://iteastory.com/190
     val url = URL("https://github.com/login/oauth/access_token")
     var token = ""
-    lateinit var pref: SharedPreferences
-    lateinit var editor : SharedPreferences.Editor
+    //lateinit var pref: SharedPreferences
+    //lateinit var editor : SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gitcallback)
 
         //shared preference 초기화
-        pref = getPreferences(Context.MODE_PRIVATE)
-        editor = pref.edit()
+        //pref = getPreferences(Context.MODE_PRIVATE)
+        //editor = pref.edit()
     }
     //todo: okHttp 사용법
     //https://soeun-87.tistory.com/23
