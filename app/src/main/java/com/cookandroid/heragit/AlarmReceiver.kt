@@ -31,18 +31,20 @@ class AlarmReceiver : BroadcastReceiver() {
     var channelId = "MYch"
     var channelName = "ch1"
     var notificationId: Int = 1002
-    var url = URL(PreferenceEdit.url)
+    var url = URL("https://api.github.com/users/fnql/events?per_page=2")
 
     lateinit var pref: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        MyApplication.prefs.minTime=1
+        Log.e("MainActivity", MyApplication.prefs.minTime.toString())
         if (intent != null) {
             Log.e("알람", System.currentTimeMillis().toString())
             Toast.makeText(context, "alarm~~", Toast.LENGTH_SHORT).show()
         }
-
-        gitApiCheck(context)
+        alarmStart(context)
+        //gitApiCheck(context)
 
     }
 
