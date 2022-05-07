@@ -1,8 +1,6 @@
 package com.cookandroid.heragit
 
-
 import android.app.Application
-
 
 class MyApplication : Application() {
     companion object {

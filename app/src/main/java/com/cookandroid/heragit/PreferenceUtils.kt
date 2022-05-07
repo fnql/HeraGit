@@ -2,8 +2,7 @@ package com.cookandroid.heragit
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.widget.DatePicker
-import java.util.*
+
 
 class PreferenceUtils(context: Context) {
     private val prefsFilename = "prefs"

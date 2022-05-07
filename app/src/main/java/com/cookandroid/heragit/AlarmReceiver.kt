@@ -101,7 +101,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 try {
                     // Open the connection
                     val conn = url.openConnection() as HttpURLConnection
-                    conn.addRequestProperty("Authorization", "token ${PreferenceEdit.token}")
+                    conn.addRequestProperty("Authorization", "token ${BuildConfig.GITHUB_API_KEY}")
                     conn.requestMethod = "GET"
                     val ism = conn.inputStream
                     // Get the stream
