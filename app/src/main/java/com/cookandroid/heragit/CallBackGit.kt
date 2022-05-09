@@ -17,8 +17,7 @@ import java.io.IOException
 import java.net.URL
 
 class CallBackGit:AppCompatActivity() {
-    //git adb 무선 디버깅
-    //https://iteastory.com/190
+
     val url = URL("https://github.com/login/oauth/access_token")
     var token = ""
     //lateinit var pref: SharedPreferences
@@ -29,22 +28,12 @@ class CallBackGit:AppCompatActivity() {
         setContentView(R.layout.activity_gitcallback)
 
         val CALLBACK_URL = "heragit://github-auth"
-
-        val uri = intent.data
-        if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
-            val access_token = uri.getQueryParameter("code")
-            getAccessToken(access_token.toString())
-        }
-
         //shared preference 초기화
         //pref = getPreferences(Context.MODE_PRIVATE)
         //editor = pref.edit()
     }
-    //todo: okHttp 사용법
-    //https://soeun-87.tistory.com/23
-    //oauth 참고 블로그
-    //https://codeac.tistory.com/107
-/*    override fun onResume() {
+
+    override fun onResume() {
         super.onResume()
         val CALLBACK_URL = "heragit://github-auth"
         val uri = intent.data
@@ -52,9 +41,9 @@ class CallBackGit:AppCompatActivity() {
             val access_token = uri.getQueryParameter("code")
             getAccessToken(access_token.toString())
         }
-    }*/
-//https://digitalbourgeois.tistory.com/59
-    //ToDo: Thread 작동 X 끝나고 콜백 함수 호출하기
+    }
+
+
     private fun getAccessToken(code:String){
         try{
             val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()

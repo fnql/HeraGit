@@ -1,0 +1,17 @@
+okHttp 사용법
+https://soeun-87.tistory.com/23
+
+oauth 참고 블로그
+https://codeac.tistory.com/107
+
+git adb 무선 디버깅
+https://iteastory.com/190
+
+okHttp 동기 비동기
+https://digitalbourgeois.tistory.com/59
+
+sharedPreferences 변경하기
+https://stickode.tistory.com/207
+
+
+

@@ -30,9 +30,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-/*  BuildConfig.GITHUB_API_KEY*/
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
-    //안드로이도 HeraGit://github-auth
+
 //Todo: 클래스별 버전정보 확인
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         //PreferenceEdit.init(this)
         timer.setIs24HourView(true)
         val TAG:String = "MainActivity : "
-
+        MyApplication.prefs.myEditText="test"
+        Log.e("MainActivity", MyApplication.prefs.myEditText!!)
         val millis = MyApplication.prefs.dayTime
 
         val nextDate: Calendar = Calendar.getInstance().apply {
