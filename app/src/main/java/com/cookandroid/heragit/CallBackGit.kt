@@ -1,8 +1,6 @@
 package com.cookandroid.heragit
 
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +11,6 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
-import java.io.IOException
 import java.net.URL
 
 class CallBackGit:AppCompatActivity() {
@@ -67,8 +64,8 @@ class CallBackGit:AppCompatActivity() {
                     var str :String?= response.body?.string()
                     val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
                     //PreferenceEdit.token=res.access_token
-                    MyApplication.prefs.myEditText=res.access_token
-                    Log.e("PreferenceEdit.token : ", MyApplication.prefs.myEditText!!)
+                    MyApplication.prefs.uerGitToken=res.access_token
+                    Log.e("PreferenceEdit.token : ", MyApplication.prefs.uerGitToken!!)
                 }
             }.start()
             getUserName()
@@ -82,7 +79,7 @@ class CallBackGit:AppCompatActivity() {
         val client = OkHttpClient()
         val nameUrl = URL("https://api.github.com/user")
         val request= Request.Builder()
-            .header("Authorization","token ${PreferenceEdit.token}")
+            .header("Authorization","token ${MyApplication.prefs.uerGitToken}")
             .url(nameUrl)
             .get()
             .build()

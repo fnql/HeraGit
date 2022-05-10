@@ -2,11 +2,8 @@ package com.cookandroid.heragit
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.*
 import android.util.Log
@@ -15,15 +12,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
-import com.cookandroid.heragit.Model.OauthLogin
-import com.cookandroid.heragit.Model.OauthUser
-import com.google.gson.Gson
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import java.io.IOException
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         //PreferenceEdit.init(this)
         timer.setIs24HourView(true)
         val TAG:String = "MainActivity : "
-        MyApplication.prefs.myEditText="test"
-        Log.e("MainActivity", MyApplication.prefs.myEditText!!)
+        MyApplication.prefs.uerGitToken="test"
+        Log.e("MainActivity", MyApplication.prefs.uerGitToken!!)
         val millis = MyApplication.prefs.dayTime
 
         val nextDate: Calendar = Calendar.getInstance().apply {

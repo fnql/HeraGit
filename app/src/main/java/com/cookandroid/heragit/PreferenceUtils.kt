@@ -11,7 +11,7 @@ class PreferenceUtils(context: Context) {
     private val prefsKeyDailyMin = "minute"
     private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, Context.MODE_PRIVATE)
 
-    var myEditText: String?
+    var uerGitToken: String?
         get() = prefs.getString(prefsKeyEdt, "")
         set(value) = prefs.edit().putString(prefsKeyEdt, value).apply()
 
