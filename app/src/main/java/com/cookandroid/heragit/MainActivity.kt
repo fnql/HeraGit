@@ -25,11 +25,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //PreferenceEdit.init(this)
+
         timer.setIs24HourView(true)
+
         val TAG:String = "MainActivity : "
-        MyApplication.prefs.uerGitToken="test"
-        Log.e("MainActivity", MyApplication.prefs.uerGitToken!!)
         val millis = MyApplication.prefs.dayTime
 
         val nextDate: Calendar = Calendar.getInstance().apply {
@@ -37,11 +36,13 @@ class MainActivity : AppCompatActivity() {
             set(Calendar.HOUR_OF_DAY, 22)
             set(Calendar.MINUTE, 0)
         }
+
         if (millis != null) {
             nextDate.setTimeInMillis(millis)
         } else{
             Log.e("Main millis", "is Null")
         }
+
         val currentDateTime=nextDate.getTime()
         val date_text = SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분",Locale.getDefault()).format(currentDateTime)
         Toast.makeText(this,"다음 알람은 " + date_text+"입니다.",Toast.LENGTH_SHORT).show()

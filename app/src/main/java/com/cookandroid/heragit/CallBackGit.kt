@@ -17,17 +17,13 @@ class CallBackGit:AppCompatActivity() {
 
     val url = URL("https://github.com/login/oauth/access_token")
     var token = ""
-    //lateinit var pref: SharedPreferences
-    //lateinit var editor : SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gitcallback)
 
         val CALLBACK_URL = "heragit://github-auth"
-        //shared preference 초기화
-        //pref = getPreferences(Context.MODE_PRIVATE)
-        //editor = pref.edit()
+
     }
 
     override fun onResume() {
@@ -64,8 +60,8 @@ class CallBackGit:AppCompatActivity() {
                     var str :String?= response.body?.string()
                     val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
                     //PreferenceEdit.token=res.access_token
-                    MyApplication.prefs.uerGitToken=res.access_token
-                    Log.e("PreferenceEdit.token : ", MyApplication.prefs.uerGitToken!!)
+                    MyApplication.prefs.userGitToken=res.access_token
+                    Log.e("uerGitToken : ", MyApplication.prefs.userGitToken!!)
                 }
             }.start()
             getUserName()
@@ -79,7 +75,7 @@ class CallBackGit:AppCompatActivity() {
         val client = OkHttpClient()
         val nameUrl = URL("https://api.github.com/user")
         val request= Request.Builder()
-            .header("Authorization","token ${MyApplication.prefs.uerGitToken}")
+            .header("Authorization","token ${MyApplication.prefs.userGitToken}")
             .url(nameUrl)
             .get()
             .build()
@@ -90,7 +86,7 @@ class CallBackGit:AppCompatActivity() {
                 var str = response.body?.string()
                 val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
 
-                PreferenceEdit.url = res.url+"/events"
+                MyApplication.prefs.userGitUrl = res.url+"/events"
             }
         }.start()
     }

@@ -6,14 +6,19 @@ import android.content.SharedPreferences
 
 class PreferenceUtils(context: Context) {
     private val prefsFilename = "prefs"
-    private val prefsKeyEdt = "myEditText"
+    private val prefsGitToken = "userGitToken"
+    private val prefsGitUrl = "userGitUrl"
     private val prefsKeyDaily = "hours"
     private val prefsKeyDailyMin = "minute"
     private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, Context.MODE_PRIVATE)
 
-    var uerGitToken: String?
-        get() = prefs.getString(prefsKeyEdt, "")
-        set(value) = prefs.edit().putString(prefsKeyEdt, value).apply()
+    var userGitToken: String?
+        get() = prefs.getString(prefsGitToken, "")
+        set(value) = prefs.edit().putString(prefsGitToken, value).apply()
+
+    var userGitUrl:String?
+        get() = prefs.getString(prefsGitUrl, "")
+        set(value) = prefs.edit().putString(prefsGitUrl, value).apply()
 
     var dayTime: Long?
         get() = prefs.getLong(prefsKeyDaily,-1 )
