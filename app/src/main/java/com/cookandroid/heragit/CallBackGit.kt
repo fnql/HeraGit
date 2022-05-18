@@ -7,23 +7,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.cookandroid.heragit.Model.OauthLogin
 import com.cookandroid.heragit.Model.OauthUser
 import com.google.gson.Gson
-import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.net.URL
 
-class CallBackGit:AppCompatActivity() {
+class CallBackGit : AppCompatActivity() {
 
     val url = URL("https://github.com/login/oauth/access_token")
-    var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gitcallback)
 
         val CALLBACK_URL = "heragit://github-auth"
-
     }
 
     override fun onResume() {
@@ -33,23 +32,25 @@ class CallBackGit:AppCompatActivity() {
         if (uri != null && uri.toString().startsWith(CALLBACK_URL)) {
             val access_token = uri.getQueryParameter("code")
             getAccessToken(access_token.toString())
+        } else {
+            Log.e("CallBackGit","returnUri Error")
         }
     }
 
 
-    private fun getAccessToken(code:String){
-        try{
+    private fun getAccessToken(code: String) {
+        try {
             val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
             val client = OkHttpClient()
 
             val json = JSONObject()
-            json.put("client_id",BuildConfig.GITHUB_CLIENT_ID)
-            json.put("client_secret",BuildConfig.GITHUB_CLIENT_SECRET)
-            json.put("code",code)
+            json.put("client_id", BuildConfig.GITHUB_CLIENT_ID)
+            json.put("client_secret", BuildConfig.GITHUB_CLIENT_SECRET)
+            json.put("code", code)
 
             val body = json.toString().toRequestBody(JSON)
-            val request=Request.Builder()
-                .header("Accept","application/json")
+            val request = Request.Builder()
+                .header("Accept", "application/json")
                 .url(url)
                 .post(body)
                 .build()
@@ -57,36 +58,35 @@ class CallBackGit:AppCompatActivity() {
                 override fun run() {
                     val response = client.newCall(request).execute()
 
-                    var str :String?= response.body?.string()
-                    val res = Gson().fromJson<OauthLogin>(str,OauthLogin::class.java)
-                    //PreferenceEdit.token=res.access_token
-                    MyApplication.prefs.userGitToken=res.access_token
+                    var str: String? = response.body?.string()
+                    val res = Gson().fromJson<OauthLogin>(str, OauthLogin::class.java)
+                    MyApplication.prefs.userGitToken = res.access_token
                     Log.e("uerGitToken : ", MyApplication.prefs.userGitToken!!)
                 }
             }.start()
             getUserName()
-        } catch (e:Exception){
+        } catch (e: Exception) {
             System.err.println(e.toString())
         }
     }
-    private fun getUserName(){
-        Log.e("getUserName",": Start")
+
+    private fun getUserName() {
+        Log.e("getUserName", ": Start")
         val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
         val client = OkHttpClient()
         val nameUrl = URL("https://api.github.com/user")
-        val request= Request.Builder()
-            .header("Authorization","token ${MyApplication.prefs.userGitToken}")
+        val request = Request.Builder()
+            .header("Authorization", "token ${MyApplication.prefs.userGitToken}")
             .url(nameUrl)
             .get()
             .build()
         object : Thread() {
             override fun run() {
                 val response = client.newCall(request).execute()
-
                 var str = response.body?.string()
                 val res = Gson().fromJson<OauthUser>(str, OauthUser::class.java)
 
-                MyApplication.prefs.userGitUrl = res.url+"/events"
+                MyApplication.prefs.userGitUrl = res.url + "/events"
             }
         }.start()
     }
