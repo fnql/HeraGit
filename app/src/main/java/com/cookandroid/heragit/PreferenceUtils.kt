@@ -8,8 +8,8 @@ class PreferenceUtils(context: Context) {
     private val prefsFilename = "prefs"
     private val prefsGitToken = "userGitToken"
     private val prefsGitUrl = "userGitUrl"
-    private val prefsKeyDaily = "hours"
-    private val prefsKeyDailyMin = "minute"
+    private val prefsNextAlarmHours = "hours"
+    private val prefsNextAlarmMinute = "minute"
     private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, Context.MODE_PRIVATE)
 
     var userGitToken: String?
@@ -21,10 +21,10 @@ class PreferenceUtils(context: Context) {
         set(value) = prefs.edit().putString(prefsGitUrl, value).apply()
 
     var dayTime: Long?
-        get() = prefs.getLong(prefsKeyDaily,-1 )
-        set(value) = prefs.edit().putLong(prefsKeyDaily, value!!).apply()
+        get() = prefs.getLong(prefsNextAlarmHours,-1 )
+        set(value) = prefs.edit().putLong(prefsNextAlarmHours, value!!).apply()
 
     var minTime: Long?
-        get() = prefs.getLong(prefsKeyDailyMin,-1 )
-        set(value) = prefs.edit().putLong(prefsKeyDailyMin, value!!).apply()
+        get() = prefs.getLong(prefsNextAlarmMinute,-1 )
+        set(value) = prefs.edit().putLong(prefsNextAlarmMinute, value!!).apply()
 }
