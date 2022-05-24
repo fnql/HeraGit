@@ -13,11 +13,11 @@ class PreferenceUtils(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, Context.MODE_PRIVATE)
 
     var userGitToken: String?
-        get() = prefs.getString(prefsGitToken, "")
+        get() = prefs.getString(prefsGitToken, "GitTokenError")
         set(value) = prefs.edit().putString(prefsGitToken, value).apply()
 
     var userGitUrl:String?
-        get() = prefs.getString(prefsGitUrl, "")
+        get() = prefs.getString(prefsGitUrl, "GitUrlError")
         set(value) = prefs.edit().putString(prefsGitUrl, value).apply()
 
     var dayTime: Long?
