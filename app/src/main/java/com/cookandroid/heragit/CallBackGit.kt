@@ -61,7 +61,7 @@ class CallBackGit : AppCompatActivity() {
                     var accessTokenStr: String? = response.body?.string()
                     val res = Gson().fromJson<OauthLogin>(accessTokenStr, OauthLogin::class.java)
                     MyApplication.prefs.userGitToken = res.access_token
-                    Log.e("uerGitToken : ", MyApplication.prefs.userGitToken!!)
+
                 }
             }.start()
             getUserName()
@@ -72,18 +72,25 @@ class CallBackGit : AppCompatActivity() {
 
     private fun getUserName() {
         try {
-            val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
             val client = OkHttpClient()
             val nameUrl = URL("https://api.github.com/users")
+            Log.e("getUerName","token ${MyApplication.prefs.userGitToken}")
             val request = Request.Builder()
                 .addHeader("Authorization", "token ${MyApplication.prefs.userGitToken}")
                 .url(nameUrl)
                 .build()
-            val response = client.newCall(request).execute()
-            var userNameStr = response.body?.string()
-            val res = Gson().fromJson<OauthUser>(userNameStr, OauthUser::class.java)
-            MyApplication.prefs.userGitUrl = res.url + "/events"
 
+            object : Thread() {
+                override fun run() {
+                    val response = client.newCall(request).execute()
+                    var userNameStr = response.body?.string()
+                    if (userNameStr != null) {
+                        Log.e("Thread",userNameStr)
+                    }
+                    val res = Gson().fromJson<OauthUser>(userNameStr, OauthUser::class.java)
+                    MyApplication.prefs.userGitUrl = res.url + "/events"
+                }
+            }.start()
         } catch (e: Exception) {
             System.err.println(e.toString())
         }
