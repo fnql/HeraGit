@@ -150,7 +150,7 @@ class AlarmReceiver : BroadcastReceiver() {
             val currentDateTime = nextTime.getTime()
             val date_text =
                 SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분", Locale.getDefault()).format(
-                    currentDateTime
+                    MyApplication.prefs.dayTime
                 )
             Toast.makeText(context, "다음 알람은 " + date_text + "입니다.", Toast.LENGTH_SHORT).show()
 
