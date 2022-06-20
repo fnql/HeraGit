@@ -73,24 +73,25 @@ class CallBackGit : AppCompatActivity() {
     private fun getUserName() {
         try {
             val client = OkHttpClient()
-            val nameUrl = URL("https://api.github.com/users")
+            val nameUrl = URL("https://api.github.com/user")
             Log.e("getUerName","token ${MyApplication.prefs.userGitToken}")
             val request = Request.Builder()
                 .addHeader("Authorization", "token ${MyApplication.prefs.userGitToken}")
                 .url(nameUrl)
                 .build()
-
+            var userNameStr=""
             object : Thread() {
                 override fun run() {
                     val response = client.newCall(request).execute()
-                    var userNameStr = response.body?.string()
+                    userNameStr = response.body?.string().toString()
                     if (userNameStr != null) {
                         Log.e("Thread",userNameStr)
                     }
-                    val res = Gson().fromJson<OauthUser>(userNameStr, OauthUser::class.java)
-                    MyApplication.prefs.userGitUrl = res.url + "/events"
+
                 }
             }.start()
+            val res = Gson().fromJson<OauthUser>(userNameStr, OauthUser::class.java)
+            MyApplication.prefs.userGitUrl = res.url + "/events"
         } catch (e: Exception) {
             System.err.println(e.toString())
         }

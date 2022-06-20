@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         timer.setIs24HourView(true)
 
         val TAG:String = "MainActivity : "
-        val millis = MyApplication.prefs.dayTime
+        val millis= MyApplication.prefs.dayTime
 
         val nextDate: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
@@ -37,8 +37,10 @@ class MainActivity : AppCompatActivity() {
             set(Calendar.MINUTE, 0)
         }
 
-        if (millis != null) {
-            nextDate.setTimeInMillis(millis)
+        if (millis != -1L) {
+            if (millis != null) {
+                nextDate.setTimeInMillis(millis)
+            }
         } else{
             Log.e("Main millis", "is Null")
         }
