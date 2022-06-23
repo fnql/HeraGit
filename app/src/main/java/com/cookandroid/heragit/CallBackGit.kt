@@ -25,7 +25,9 @@ class CallBackGit : AppCompatActivity() {
         val CALLBACK_URL = "heragit://github-auth"
     }
 
+    //resume 실행 안함
     override fun onResume() {
+        Log.e("onResume","Start")
         super.onResume()
         val CALLBACK_URL = "heragit://github-auth"
         val uri = intent.data
@@ -64,10 +66,11 @@ class CallBackGit : AppCompatActivity() {
 
                 }
             }.start()
-            getUserName()
+
         } catch (e: Exception) {
             System.err.println(e.toString())
         }
+        getUserName()
     }
 
     private fun getUserName() {
