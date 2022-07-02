@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.*
 import android.util.Log
@@ -14,10 +15,14 @@ import androidx.annotation.RequiresApi
 import androidx.browser.customtabs.CustomTabsIntent
 import java.text.SimpleDateFormat
 import java.util.*
+import android.graphics.drawable.ColorDrawable
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
-
+    var customProgressDialog: ProgressDialog? = null
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
 
 //Todo: 클래스별 버전정보 확인
@@ -76,6 +81,15 @@ class MainActivity : AppCompatActivity() {
             login(this)
 
         }
+
+    //로딩창 객체 생성
+    customProgressDialog = ProgressDialog(this)
+    //로딩창을 투명하게
+    customProgressDialog!!.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+    btnload.setOnClickListener {
+        customProgressDialog!!.show()
+    }
     }
 
 

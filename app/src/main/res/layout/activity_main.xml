@@ -40,6 +40,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="git인증"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnload"
+        android:layout_gravity="center"
+        android:text="Loading"/>
 
 
 </LinearLayout>
