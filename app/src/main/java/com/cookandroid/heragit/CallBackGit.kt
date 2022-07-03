@@ -11,7 +11,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import org.json.JSONObject
+import java.io.IOException
 import java.net.URL
 
 class CallBackGit : AppCompatActivity() {
@@ -58,18 +60,30 @@ class CallBackGit : AppCompatActivity() {
                 .build()
             object : Thread() {
                 override fun run() {
-                    val response = client.newCall(request).execute()
-
-                    var accessTokenStr: String? = response.body?.string()
-                    val res = Gson().fromJson<OauthLogin>(accessTokenStr, OauthLogin::class.java)
-                    MyApplication.prefs.userGitToken = res.access_token
-
+                    var response = client.newCall(request).execute()
+                    if (response.isSuccessful){
+                        var accessTokenStr: String? = response.body?.string()
+                        val res = Gson().fromJson<OauthLogin>(accessTokenStr, OauthLogin::class.java)
+                        MyApplication.prefs.userGitToken = res.access_token
+                    }
+                    else{
+                        val responseCode = response.toString()
+                        var responseData = response.body?.string()
+                        Log.d("---","---");
+                        Log.e("//===========//","================================================");
+                        Log.d("","\n"+"[A_OkHttp > requestSyncGetHttp() 메소드 : OK HTTP 동기 GET 요청 실패]");
+                        Log.d("","\n"+"["+"에러 코드 : " + String.valueOf(responseCode)+"]");
+                        Log.d("","\n"+"["+"에러 값 : " + String.valueOf(responseData)+"]");
+                        Log.e("//===========//","================================================");
+                        Log.d("---","---");
+                    }
                 }
             }.start()
 
         } catch (e: Exception) {
             System.err.println(e.toString())
         }
+
         getUserName()
     }
 
