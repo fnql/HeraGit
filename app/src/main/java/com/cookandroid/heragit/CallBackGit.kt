@@ -71,9 +71,9 @@ class CallBackGit : AppCompatActivity() {
                         var responseData = response.body?.string()
                         Log.d("---","---");
                         Log.e("//===========//","================================================");
-                        Log.d("","\n"+"[A_OkHttp > requestSyncGetHttp() 메소드 : OK HTTP 동기 GET 요청 실패]");
-                        Log.d("","\n"+"["+"에러 코드 : " + String.valueOf(responseCode)+"]");
-                        Log.d("","\n"+"["+"에러 값 : " + String.valueOf(responseData)+"]");
+                        Log.d("getAccessToken","\nOK HTTP 동기 GET 요청 실패]");
+                        Log.d("", "\n[에러 코드 : $responseCode]");
+                        Log.d("", "\n[에러 값 : $responseData]");
                         Log.e("//===========//","================================================");
                         Log.d("---","---");
                     }
