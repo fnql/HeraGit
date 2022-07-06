@@ -65,6 +65,7 @@ class CallBackGit : AppCompatActivity() {
                         var accessTokenStr: String? = response.body?.string()
                         val res = Gson().fromJson<OauthLogin>(accessTokenStr, OauthLogin::class.java)
                         MyApplication.prefs.userGitToken = res.access_token
+                        getUserName()
                     }
                     else{
                         val responseCode = response.toString()
@@ -84,7 +85,7 @@ class CallBackGit : AppCompatActivity() {
             System.err.println(e.toString())
         }
 
-        getUserName()
+
     }
 
     private fun getUserName() {
@@ -100,15 +101,26 @@ class CallBackGit : AppCompatActivity() {
             object : Thread() {
                 override fun run() {
                     val response = client.newCall(request).execute()
-                    userNameStr = response.body?.string().toString()
-                    if (userNameStr != null) {
-                        Log.e("Thread",userNameStr)
+                    if (response.isSuccessful) {
+                        userNameStr = response.body?.string().toString()
+                        if (userNameStr != null) {
+                            val res = Gson().fromJson<OauthUser>(userNameStr, OauthUser::class.java)
+                            MyApplication.prefs.userGitUrl = res.url + "/events"
+                        }
+                    } else{
+                        val responseCode = response.toString()
+                        var responseData = response.body?.string()
+                        Log.d("---","---");
+                        Log.e("//===========//","================================================");
+                        Log.d("getAccessToken","\nOK HTTP 동기 GET 요청 실패]");
+                        Log.d("", "\n[에러 코드 : $responseCode]");
+                        Log.d("", "\n[에러 값 : $responseData]");
+                        Log.e("//===========//","================================================");
+                        Log.d("---","---");
                     }
-
                 }
             }.start()
-            val res = Gson().fromJson<OauthUser>(userNameStr, OauthUser::class.java)
-            MyApplication.prefs.userGitUrl = res.url + "/events"
+
         } catch (e: Exception) {
             System.err.println(e.toString())
         }
