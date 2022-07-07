@@ -24,8 +24,9 @@ import android.graphics.drawable.ColorDrawable
 class MainActivity : AppCompatActivity() {
     var customProgressDialog: ProgressDialog? = null
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
-
 //Todo: 클래스별 버전정보 확인
+    //TODO: 백그라운드에서 작동하도록
+    //https://github.com/devstar1224/Route_SMS 참고
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
