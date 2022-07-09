@@ -28,13 +28,12 @@ import java.util.*
 class AlarmReceiver : BroadcastReceiver() {
     var textTitle = "Do github"
     var textContent = "오늘 커밋이 없어요"
+    var textTitleSuccess = "DID github"
+    var textContentSuccess = "오늘 커밋 했어요!"
     var channelId = "MYch"
     var channelName = "ch1"
     var notificationId: Int = 1002
     var url = URL(MyApplication.prefs.userGitUrl)
-
-    //lateinit var pref: SharedPreferences
-    //lateinit var editor: SharedPreferences.Editor
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -101,6 +100,7 @@ class AlarmReceiver : BroadcastReceiver() {
         ) {
             Toast.makeText(context, "오늘 커밋 완료!", Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest", "OO $commitUser$commitTime OO")
+            alarmStartSuccess(context)
 
         } else {
             Toast.makeText(context, "오늘 커밋 없음", Toast.LENGTH_SHORT).show()
@@ -142,10 +142,49 @@ class AlarmReceiver : BroadcastReceiver() {
             val nextTime = Calendar.getInstance()
             nextTime.add(Calendar.DATE, 1)
 
-/*            val editor =
-                context.getSharedPreferences("daily", AppCompatActivity.MODE_PRIVATE).edit()
-            editor.putLong("nextDate", nextTime.timeInMillis)
-            editor.apply()*/
+            MyApplication.prefs.dayTime=nextTime.timeInMillis
+            val currentDateTime = nextTime.getTime()
+            val date_text =
+                SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분", Locale.getDefault()).format(
+                    MyApplication.prefs.dayTime
+                )
+            Toast.makeText(context, "다음 알람은 " + date_text + "입니다.", Toast.LENGTH_SHORT).show()
+
+        }
+    }
+
+    private fun alarmStartSuccess(context: Context?) {
+        val notificationManager =
+            context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationIntent = Intent(context, MainActivity::class.java)
+        notificationIntent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP
+                or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        val pendingl = PendingIntent.getActivity(context, 0, notificationIntent, 0)
+
+        var builder = NotificationCompat.Builder(context!!, channelId)
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle(textTitleSuccess)
+            .setContentText(textContentSuccess)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingl)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            val descriptionText = "1번 채널"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                description = descriptionText
+            }
+
+            channel.lightColor = Color.BLUE
+            channel.enableVibration(true)
+            notificationManager.createNotificationChannel(channel)
+
+        }
+        if (notificationManager != null) {
+            notificationManager.notify(notificationId, builder.build())
+            val nextTime = Calendar.getInstance()
+            nextTime.add(Calendar.DATE, 1)
+
             MyApplication.prefs.dayTime=nextTime.timeInMillis
             val currentDateTime = nextTime.getTime()
             val date_text =
