@@ -1,6 +1,8 @@
 package com.cookandroid.heragit
 
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -17,14 +19,19 @@ import java.io.IOException
 import java.net.URL
 
 class CallBackGit : AppCompatActivity() {
-
+    var customProgressDialog: ProgressDialog? = null
     val url = URL("https://github.com/login/oauth/access_token")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gitcallback)
+        //로딩창 객체 생성
+        customProgressDialog = ProgressDialog(this)
+        //로딩창을 투명하게
+        customProgressDialog!!.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        customProgressDialog!!.show()
 
         val CALLBACK_URL = "heragit://github-auth"
+
     }
 
     //resume 실행 안함

@@ -17,16 +17,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.graphics.drawable.ColorDrawable
 
-
-
-
-
-class MainActivity : AppCompatActivity() {
-    var customProgressDialog: ProgressDialog? = null
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
 //Todo: 클래스별 버전정보 확인
-    //TODO: 백그라운드에서 작동하도록
-    //https://github.com/devstar1224/Route_SMS 참고
+class MainActivity : AppCompatActivity() {
+    var customProgressDialog: ProgressDialog? = null
+
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,17 +76,17 @@ class MainActivity : AppCompatActivity() {
         }
         github_apps.setOnClickListener {
             login(this)
-
         }
 
-    //로딩창 객체 생성
-    customProgressDialog = ProgressDialog(this)
-    //로딩창을 투명하게
-    customProgressDialog!!.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        //로딩창 객체 생성
+        customProgressDialog = ProgressDialog(this)
+        //로딩창을 투명하게
+        customProgressDialog!!.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-    btnload.setOnClickListener {
-        customProgressDialog!!.show()
-    }
+        btnload.setOnClickListener {
+            customProgressDialog!!.show()
+            //customProgressDialog!!.cancel()
+        }
     }
 
 
