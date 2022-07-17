@@ -46,6 +46,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun gitApiCheck(context: Context?) {
+        MyApplication.prefs.testCount = 1
         val asyncTask = object : AsyncTask<Void, Int, String>() {
             override fun doInBackground(vararg p0: Void?): String? {
 

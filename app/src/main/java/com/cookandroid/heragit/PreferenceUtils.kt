@@ -10,7 +10,10 @@ class PreferenceUtils(context: Context) {
     private val prefsGitUrl = "userGitUrl"
     private val prefsNextAlarmHours = "hours"
     private val prefsNextAlarmMinute = "minute"
+    private val prefsTest="testData"
     private val prefs: SharedPreferences = context.getSharedPreferences(prefsFilename, Context.MODE_PRIVATE)
+
+    var testCount = 0
 
     var userGitToken: String?
         get() = prefs.getString(prefsGitToken, "GitTokenError")
@@ -27,4 +30,8 @@ class PreferenceUtils(context: Context) {
     var minTime: Long?
         get() = prefs.getLong(prefsNextAlarmMinute,-1 )
         set(value) = prefs.edit().putLong(prefsNextAlarmMinute, value!!).apply()
+
+    var testData: Long?
+        get() = prefs.getLong(prefsNextAlarmMinute,-1 )
+        set(value) = prefs.edit().putLong(prefsTest, (testCount + 1).toLong()).apply()
 }
