@@ -34,6 +34,7 @@ class AlarmReceiver : BroadcastReceiver() {
     var channelName = "ch1"
     var notificationId: Int = 1002
     var url = URL(MyApplication.prefs.userGitUrl)
+    var count = 1L
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -46,7 +47,8 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun gitApiCheck(context: Context?) {
-        MyApplication.prefs.testCount = 1
+        MyApplication.prefs.testData = count
+        count+=1
         val asyncTask = object : AsyncTask<Void, Int, String>() {
             override fun doInBackground(vararg p0: Void?): String? {
 
@@ -65,11 +67,9 @@ class AlarmReceiver : BroadcastReceiver() {
                         builder.append(line)
                     }
 
-                    // Set the result
                     result = builder.toString()
 
                 } catch (e: Exception) {
-                    // Error calling the rest api
                     Log.e("REST_API", "GET method failed: " + e.message)
                     e.printStackTrace()
                 }
@@ -187,7 +187,6 @@ class AlarmReceiver : BroadcastReceiver() {
             nextTime.add(Calendar.DATE, 1)
 
             MyApplication.prefs.dayTime=nextTime.timeInMillis
-            val currentDateTime = nextTime.getTime()
             val date_text =
                 SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분", Locale.getDefault()).format(
                     MyApplication.prefs.dayTime

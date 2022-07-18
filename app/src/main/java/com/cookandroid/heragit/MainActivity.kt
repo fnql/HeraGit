@@ -29,8 +29,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         timer.setIs24HourView(true)
-
-        val TAG:String = "MainActivity : "
         val millis= MyApplication.prefs.dayTime
 
         val nextDate: Calendar = Calendar.getInstance().apply {
