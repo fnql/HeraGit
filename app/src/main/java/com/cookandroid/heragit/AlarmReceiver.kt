@@ -47,8 +47,8 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun gitApiCheck(context: Context?) {
-        MyApplication.prefs.testData = count
         count+=1
+        MyApplication.prefs.testData = count
         val asyncTask = object : AsyncTask<Void, Int, String>() {
             override fun doInBackground(vararg p0: Void?): String? {
 
@@ -99,12 +99,12 @@ class AlarmReceiver : BroadcastReceiver() {
         if ((commitTime == today.toString() && commitHour < 15) ||
             (commitHour >= 15 && commitTime == today.minusDays(1).toString())
         ) {
-            Toast.makeText(context, "오늘 커밋 완료!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "오늘 커밋 완료####"+MyApplication.prefs.testData, Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest", "OO $commitUser$commitTime OO")
             alarmStartSuccess(context)
 
         } else {
-            Toast.makeText(context, "오늘 커밋 없음", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "오늘 커밋 없음@@@@"+MyApplication.prefs.testData, Toast.LENGTH_SHORT).show()
             Log.e("AlarmTest", "XX $commitUser$commitTime XX")
             alarmStart(context)
         }

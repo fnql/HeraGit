@@ -22,7 +22,6 @@ import android.graphics.drawable.ColorDrawable
 class MainActivity : AppCompatActivity() {
     var customProgressDialog: ProgressDialog? = null
 
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +86,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.M)
     private fun alarmSetting(){
         val hour: Int = timer.getHour()
@@ -130,6 +128,7 @@ class MainActivity : AppCompatActivity() {
                 PackageManager.DONT_KILL_APP)*/
         }
     }
+
     private fun login(context: Context){
         val loginUrl=Uri.Builder().scheme("https").authority("github.com")
             .appendPath("login")
