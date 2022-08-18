@@ -117,13 +117,11 @@ class CallBackGit : AppCompatActivity() {
                     } else{
                         val responseCode = response.toString()
                         var responseData = response.body?.string()
-                        Log.d("---","---");
                         Log.e("//===========//","================================================");
                         Log.d("getAccessToken","\nOK HTTP 동기 GET 요청 실패]");
                         Log.d("", "\n[에러 코드 : $responseCode]");
                         Log.d("", "\n[에러 값 : $responseData]");
                         Log.e("//===========//","================================================");
-                        Log.d("---","---");
                     }
                 }
             }.start()

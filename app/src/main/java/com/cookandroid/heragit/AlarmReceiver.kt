@@ -47,7 +47,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun gitApiCheck(context: Context?) {
-
+        //count 오류 확인
         count+=1
         MyApplication.prefs.testData = count
 
