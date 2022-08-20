@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 
 
 class PreferenceUtils(context: Context) {
+
     private val prefsFilename = "prefs"
     private val prefsGitToken = "userGitToken"
     private val prefsGitUrl = "userGitUrl"

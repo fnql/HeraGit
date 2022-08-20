@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.SharedPreferences
 
 object PreferenceEdit{
+
+    //sharedPreferences test code
     private val PREF_TOKEN = "token"
     private val PREF_NAME = "horang"
     private val PREF_URL = "URL"
