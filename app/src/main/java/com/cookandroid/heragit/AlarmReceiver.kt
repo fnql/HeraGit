@@ -116,17 +116,20 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun alarmStart(context: Context?) {
         val notificationManager =
             context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         val notificationIntent = Intent(context, MainActivity::class.java)
         notificationIntent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP
                 or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        val pendingl = PendingIntent.getActivity(context, 0, notificationIntent, 0)
 
+        val pendingl = PendingIntent.getActivity(context, 0, notificationIntent, 0)
+        //알람이 한번만 울림
         var builder = NotificationCompat.Builder(context!!, channelId)
             .setSmallIcon(R.drawable.logo)
             .setContentTitle(textTitle)
             .setContentText(textContent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingl)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             val descriptionText = "1번 채널"
