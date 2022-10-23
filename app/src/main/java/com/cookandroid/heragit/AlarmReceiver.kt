@@ -1,5 +1,6 @@
 package com.cookandroid.heragit
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -113,6 +114,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     }
 
+    //todo: 1023알람 확인
     private fun alarmStart(context: Context?) {
         val notificationManager =
             context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -159,6 +161,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun alarmStartSuccess(context: Context?) {
         val notificationManager =
             context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -173,8 +176,8 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentText(textContentSuccess)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingl)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val descriptionText = "1번 채널"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(channelId, channelName, importance).apply {
