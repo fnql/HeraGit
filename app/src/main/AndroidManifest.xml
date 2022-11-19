@@ -43,6 +43,9 @@
             </intent-filter>
 
         </activity>
+        <service android:name=".thread.MyService"
+            android:enabled="true"
+            android:exported="true"></service>
 
         <receiver android:name=".AlarmReceiver" />
         <receiver android:name=".DeviceBootReceiver" />

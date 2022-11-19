@@ -37,11 +37,14 @@ class AlarmReceiver : BroadcastReceiver() {
     var url = URL(MyApplication.prefs.userGitUrl)
     var count = 1L
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent) {
 
         if (intent != null) {
             Log.e("알람", System.currentTimeMillis().toString())
             Toast.makeText(context, "alarm~~", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.e("alarmReceiverNull", System.currentTimeMillis().toString())
+            Toast.makeText(context, "ReceiveNull~~", Toast.LENGTH_SHORT).show()
         }
 
         gitApiCheck(context)

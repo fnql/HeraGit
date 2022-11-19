@@ -16,6 +16,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import java.text.SimpleDateFormat
 import java.util.*
 import android.graphics.drawable.ColorDrawable
+import com.cookandroid.heragit.thread.MyService
+
 
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
 //Todo: 클래스별 버전정보 확인
@@ -83,6 +85,11 @@ class MainActivity : AppCompatActivity() {
         btnload.setOnClickListener {
             customProgressDialog!!.show()
             //customProgressDialog!!.cancel()
+
+
+            /* 앱 실행시 Background Service 실행
+            val serviceintent = Intent(this, MyService::class.java)
+            startService(serviceintent)*/
         }
     }
 
@@ -116,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (diaryAl){
-            alarmMgr?.setInexactRepeating(
+            alarmMgr.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
                 AlarmManager.INTERVAL_DAY,
