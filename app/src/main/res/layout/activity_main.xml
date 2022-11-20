@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#00ff0000">
 
     <TimePicker
         android:layout_width="wrap_content"
@@ -24,6 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="#00ff0000"
+            android:fontFamily="@font/dosthothic"
+            android:textSize="20sp"
             android:text="알람 설정"/>
 
         <Button
@@ -31,7 +35,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="알람취소"/>
+            android:layout_marginLeft="20dp"
+            android:background="#00ff0000"
+            android:fontFamily="@font/dosthothic"
+            android:textSize="20sp"
+            android:text="알람 취소"/>
 
     </LinearLayout>
 
@@ -46,22 +54,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="git인증" />
+            android:background="#00ff0000"
+            android:textSize="20sp"
+            android:fontFamily="@font/dosthothic"
+            android:text="git 인증" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="git확인" />
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:background="#00ff0000"
+            android:fontFamily="@font/dosthothic"
+            android:text="git 확인" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnload"
+        android:id="@+id/btnloadTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Loading"
         android:visibility="invisible" />
 
+    <ImageView
+        android:layout_width="336dp"
+        android:layout_height="251dp"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/commit2_eom" />
 
 </LinearLayout>
