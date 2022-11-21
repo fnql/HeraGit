@@ -117,7 +117,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     }
 
-    //todo: 1023알람 확인
+    //todo: 1120 알림 확인
     private fun alarmStart(context: Context?) {
         val notificationManager =
             context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -127,7 +127,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 or Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         val pendingl = PendingIntent.getActivity(context, 0, notificationIntent, 0)
-        //알람이 한번만 울림
+
         var builder = NotificationCompat.Builder(context!!, channelId)
             .setSmallIcon(R.drawable.logo)
             .setContentTitle(textTitle)
