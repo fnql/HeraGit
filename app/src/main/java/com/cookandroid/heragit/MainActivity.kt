@@ -121,12 +121,12 @@ class MainActivity : AppCompatActivity() {
         var alarmIntent = Intent(this, AlarmReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(this, 0, intent,  0)
         }
-//  todo: 하루단위 알림 작동X
+        //하루단위 알림 작동X -> 15분 단위 알림 작동O
         if (diaryAl){
             alarmMgr.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+                AlarmManager.INTERVAL_DAY,
                 alarmIntent
             )
 
