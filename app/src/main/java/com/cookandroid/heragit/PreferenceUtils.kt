@@ -32,7 +32,7 @@ class PreferenceUtils(context: Context) {
         get() = prefs.getLong(prefsNextAlarmMinute,-1 )
         set(value) = prefs.edit().putLong(prefsNextAlarmMinute, value!!).apply()
 
-    var testData: Long?
-        get() = prefs.getLong(prefsNextAlarmMinute, testCount)
-        set(value) = prefs.edit().putLong(prefsTest, (testCount + 1)).apply()
+    var testData: String?
+        get() = prefs.getString(prefsNextAlarmMinute, "2022-11-11")
+        set(value) = prefs.edit().putString(prefsTest, value).apply()
 }

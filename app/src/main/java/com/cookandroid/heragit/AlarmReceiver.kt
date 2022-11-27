@@ -37,8 +37,11 @@ class AlarmReceiver : BroadcastReceiver() {
     var url = URL(MyApplication.prefs.userGitUrl)
     var count = 1L
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent) {
-
+        //count 오류 확인
+        count+=1
+        MyApplication.prefs.testData = LocalDate.now().toString()
         if (intent != null) {
             Log.e("알람", System.currentTimeMillis().toString())
             Toast.makeText(context, "alarm~~", Toast.LENGTH_SHORT).show()
@@ -51,9 +54,7 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     private fun gitApiCheck(context: Context?) {
-        //count 오류 확인
-        count+=1
-        MyApplication.prefs.testData = count
+
 
         val asyncTask = object : AsyncTask<Void, Int, String>() {
             override fun doInBackground(vararg p0: Void?): String? {
