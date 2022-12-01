@@ -114,6 +114,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun diaryAlarm(calendar: Calendar) {
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 22)
+        }
         val diaryAl:Boolean = true
         val pm = this.packageManager
         //val receiver = ComponentName(this,DeviceBootReceiver::class.java)
