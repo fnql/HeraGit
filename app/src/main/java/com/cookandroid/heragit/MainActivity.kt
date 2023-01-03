@@ -113,6 +113,7 @@ class MainActivity : AppCompatActivity() {
         diaryAlarm(calendar)
     }
 
+    // 23/01/01 알람 동작 연습
     private fun diaryAlarm(calendar: Calendar) {
         val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
