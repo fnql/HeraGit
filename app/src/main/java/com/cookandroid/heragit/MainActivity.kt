@@ -16,18 +16,27 @@ import androidx.browser.customtabs.CustomTabsIntent
 import java.text.SimpleDateFormat
 import java.util.*
 import android.graphics.drawable.ColorDrawable
+import com.cookandroid.heragit.Model.UserEvent
+import com.cookandroid.heragit.Service.CommitService
 import com.cookandroid.heragit.thread.MyService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 //TODO: git while(당일) 당일 커밋여부 확인 - 다른 이름으로 커밋할 수 있
 //Todo: 클래스별 버전정보 확인
 class MainActivity : AppCompatActivity() {
     var customProgressDialog: ProgressDialog? = null
+    var gitURL = "https://api.github.com/"
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         timer.setIs24HourView(true)
         val millis= MyApplication.prefs.dayTime
@@ -58,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             timer.setCurrentMinute(0)
         }
 
+
         alarm_start.setOnClickListener {
             alarmSetting()
         }
@@ -82,14 +92,26 @@ class MainActivity : AppCompatActivity() {
         //로딩창을 투명하게
         customProgressDialog!!.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        btnload.setOnClickListener {
-            customProgressDialog!!.show()
-            //customProgressDialog!!.cancel()
+        github_check.setOnClickListener {
+            //            customProgressDialog!!.show()
+            val retrofit = Retrofit.Builder().baseUrl(gitURL).addConverterFactory(GsonConverterFactory.create()).build()
+            val service = retrofit.create(CommitService::class.java)
 
+            //todo:: userName 변수로 저장해두기
+            service.getEvent("fnql")?.enqueue(object : Callback<List<UserEvent>> {
+                override fun onResponse(call: Call<List<UserEvent>>, response: Response<List<UserEvent>>) {
+                    if (response.isSuccessful) {
+                        var result : List<UserEvent>? = response.body()
+                        Log.d("LOG ","github Check 성공 : " + result.toString());
+                    } else {
+                        Log.d("LOG ","github Check 실패XXX");
+                    }
+                }
 
-            /* 앱 실행시 Background Service 실행
-            val serviceintent = Intent(this, MyService::class.java)
-            startService(serviceintent)*/
+                override fun onFailure(call: Call<List<UserEvent>>, t: Throwable) {
+                    Log.d("LOG ","github Check 통신 실패");
+                }
+            })
         }
     }
 
@@ -147,7 +169,7 @@ class MainActivity : AppCompatActivity() {
             .appendPath("oauth")
             .appendPath("authorize")
             .appendQueryParameter("client_id",BuildConfig.GITHUB_CLIENT_ID)
-            .appendQueryParameter("scope","repo:status")
+            .appendQueryParameter("scope","repo")
             .build()
 
         CustomTabsIntent.Builder().build().also {

@@ -60,7 +60,7 @@
             android:text="git 인증" />
 
         <Button
-            android:id="@+id/btnload"
+            android:id="@+id/github_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
