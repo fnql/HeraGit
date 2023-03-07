@@ -11,7 +11,7 @@ interface CommitService {
     @GET("users/{userName}/events")
     fun getEvent(
         @Path("userName") userName: String,
-        @Header
+        @Header("Authorization") accessToken: String
     ): Call<List<UserEvent>>
 
 }

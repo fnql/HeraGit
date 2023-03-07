@@ -112,6 +112,7 @@ class CallBackGit : AppCompatActivity() {
                         userNameStr = response.body?.string().toString()
                         if (userNameStr != null) {
                             val res = Gson().fromJson<OauthUser>(userNameStr, OauthUser::class.java)
+                            //todo:: user name만 뽑아내기
                             MyApplication.prefs.userGitUrl = res.url + "/events"
                         }
                     } else{
