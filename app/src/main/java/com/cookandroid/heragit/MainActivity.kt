@@ -94,34 +94,33 @@ class MainActivity : AppCompatActivity() {
 
         github_check.setOnClickListener {
             //            customProgressDialog!!.show()
-
+            gitCheck();
         }
     }
 
     private fun gitCheck(): Boolean {
         val retrofit = Retrofit.Builder().baseUrl(gitURL).addConverterFactory(GsonConverterFactory.create()).build()
         val service = retrofit.create(CommitService::class.java)
+        var result = false
 
         //todo:: userName 변수로 저장해두기
         service.getEvent("fnql","token ${MyApplication.prefs.userGitToken}")?.enqueue(object : Callback<List<UserEvent>> {
             override fun onResponse(call: Call<List<UserEvent>>, response: Response<List<UserEvent>>) {
                 if (response.isSuccessful) {
-                    var result : List<UserEvent>? = response.body()
+//                    var result : List<UserEvent>? = response.body()
+                    result = true
                     Toast.makeText(baseContext,"깃허브 연동 이상없음.",Toast.LENGTH_SHORT).show()
-//                        Log.d("LOG ","github Check 성공 : " + result.toString());
                 } else {
                     Toast.makeText(applicationContext,"깃허브 연동 오류!.",Toast.LENGTH_SHORT).show()
-//                        Log.d("LOG ","github Check 실패XXX");
                 }
             }
 
             override fun onFailure(call: Call<List<UserEvent>>, t: Throwable) {
-                Log.d("LOG ","github Check 통신 실패");
-                return false;
+                Toast.makeText(applicationContext,"github Check 통신 실패!.",Toast.LENGTH_SHORT).show()
             }
 
         })
-        return true;
+        return result
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
